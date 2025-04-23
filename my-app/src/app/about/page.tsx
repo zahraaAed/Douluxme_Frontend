@@ -1,10 +1,12 @@
 import Image from 'next/image';
-
+import Footer from '../components/footer';
+import Header from '../components/header';
 export default function AboutDouluxme() {
   return (
     <div className="font-sans">
       {/* Header */}
-      <div className="bg-[#FFF7F3] px-6 py-12 w-full">
+      <Header />
+      <div className="bg-[#FFF7F3] px-6 py-12 w-full pt-20 md:pt-24">
         {/* Row: Heading + Image */}
         <div className="flex flex-col md:flex-row items-center justify-around gap-6">
           {/* Heading */}
@@ -21,7 +23,7 @@ export default function AboutDouluxme() {
 
         {/* Paragraph below */}
         <div className="mt-12">
-          <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal text-center max-w-4xl mx-auto leading-relaxed">
+          <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal text-center max-w-7xl mx-auto leading-relaxed ">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed semper mauris nec nulla viverra rutrum. 
             Donec non mi nunc. Proin convallis tellus finibus, lobortis neque vel, commodo nisl. 
             Duis gravida quis nunc vitae egestas. Sed tristique purus condimentum posuere tincidunt. 
@@ -82,6 +84,9 @@ export default function AboutDouluxme() {
           </div>
         </div>
       </div>
+    
+  {/* Footer */}
+    <Footer />
     </div>
   );
 }
