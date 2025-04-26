@@ -6,34 +6,34 @@ export default function AboutDouluxme() {
     <div className="font-sans">
       {/* Header */}
       <Header />
-      <div className="bg-[#FFF7F3] px-6 py-12 w-full pt-20 md:pt-24">
+      <div className="bg-[#FFF7F3] px-6 py-12 mt-8 w-full pt-20 md:pt-24">
         {/* Row: Heading + Image */}
         <div className="flex flex-col md:flex-row items-center justify-around gap-6">
           {/* Heading */}
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#B65F50] leading-snug text-center md:text-left mt-4">
+          <h2 className="text-3xl md:text-4xl lg:text-7xl font-extrabold text-[#B65F50] leading-snug text-center md:text-left mt-4">
             ABOUT<br />DOULUXME
           </h2>
 
           {/* Image with offset background */}
           <div className="relative w-fit">
             <div className="absolute top-4 left-4 w-full h-full bg-[#FDD9B5] -z-10 rounded-sm"></div>
-            <img src="/about1.jpeg" alt="Chocolates" className="w-72 md:w-96 object-cover rounded-sm" />
+            <img src="/about1.jpeg" alt="Chocolates" className="w-90 md:w-96 object-cover" />
           </div>
         </div>
 
         {/* Paragraph below */}
-        <div className="mt-12">
+        <div className="mt-20">
           <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal text-center max-w-7xl mx-auto leading-relaxed ">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed semper mauris nec nulla viverra rutrum. 
-            Donec non mi nunc. Proin convallis tellus finibus, lobortis neque vel, commodo nisl. 
-            Duis gravida quis nunc vitae egestas. Sed tristique purus condimentum posuere tincidunt. 
-            Curabitur aliquet eget ex nec laoreet.
+          At Douluxme, we believe little moments deserve something sweet.
+That's why we take soft dates, fill them with crunchy nuts, and dip them in rich, silky chocolate.
+Every piece is made with love, using only the best ingredients.
+A treat that feels good, tastes even better, and makes every day a little more special
           </p>
         </div>
       </div>
 
       {/* Decorative green bar */}
-      <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-green-500 mt-20"></div>
+      <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-[#A6CC9A] mt-20"></div>
 
 
       {/* Centered Content Wrapper */}
@@ -46,15 +46,16 @@ export default function AboutDouluxme() {
             <img src="/about2.jpeg" alt="Date 1" className="w-64 md:w-1/2 h-auto object-cover" />
           </div>
 
-          {/* Text Section */}
-          <div className="w-full md:w-1/2 flex flex-col items-center md:items-start justify-center text-center md:text-left mt-4 md:mt-20">
-            <h3 className="text-3xl md:text-4xl font-bold text-[#F48444] mb-2">Our Story</h3>
-            <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed semper mauris nec nulla viverra rutrum.
-              Donec non mi nunc. Proin convallis tellus finibus, lobortis neque vel, commodo nisl. 
-              Duis gravida quis nunc vitae egestas.
-            </p>
-          </div>
+
+    {/* Text Section */}
+    <div className="w-full md:w-1/2 flex flex-col items-center space-around md:items-start justify-center text-center md:text-left mt-4 md:mt-20 gap-y-4">
+      <h3 className="text-3xl md:text-4xl font-bold text-[#F48444]">Our Story</h3>
+      <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal w-[600px]">
+        Douluxme began with a girl who loved healthy food but craved something sweet.
+        She crafted the perfect treat — natural dates, crunchy nuts, and silky chocolate — no compromise, just pure joy.
+        Today, Douluxme brings that same love and passion to you.
+      </p>
+    </div>
         </div>
       </div>
 
@@ -64,8 +65,8 @@ export default function AboutDouluxme() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mt-20">
           {/* Mission Block */}
-          <div className="relative pl-6 py-12 border-t-4 border-l-4 border-[#F48444] max-w-3xl mx-auto">
-            <h4 className="absolute -top-4 right-0 bg-[#FFFAF4] px-2 font-bold text-2xl md:text-3xl text-[#F48444]">
+          <div className="relative pl-6 py-12 border-t-4 border-l-4 border-[#A6CC9A] max-w-3xl mx-auto">
+            <h4 className="absolute -top-4 right-0 bg-[#FFFAF4] px-2 font-bold text-2xl md:text-3xl text-[#A6CC9A]">
               Mission
             </h4>
             <p className="text-gray-700 text-base sm:text-lg md:text-2xl">
@@ -74,8 +75,8 @@ export default function AboutDouluxme() {
           </div>
 
           {/* Vision Block */}
-          <div className="relative py-12 pl-6 border-l-4 border-b-4 border-[#F48444] max-w-3xl mx-auto">
-            <h4 className="absolute -bottom-4 right-0 bg-white px-2 font-bold text-2xl md:text-3xl text-[#F48444]">
+          <div className="relative py-12 pl-6 border-l-4 border-b-4 border-[#A6CC9A] max-w-3xl mx-auto">
+            <h4 className="absolute -bottom-4 right-0 bg-[#FFFAF4] px-2 font-bold text-2xl md:text-3xl text-[#A6CC9A]">
               Vision
             </h4>
             <p className="text-gray-700 text-base sm:text-lg md:text-2xl">

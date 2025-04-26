@@ -1,9 +1,8 @@
-"use client";
-
-
+"use client"; // Add the "use client" directive to indicate client-side rendering
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Footer from "./footer";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,20 +26,43 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 z-50 w-full flex justify-between items-center px-4 md:px-10 py-4 md:py-6 bg-white shadow-md fixed ">
+      <header className="top-0 z-50 w-full flex justify-between items-center px-4 md:px-10 py-4 md:py-6 bg-[#FFFAF4] shadow-md fixed ">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/">
-            <span className="font-bold text-xl cursor-pointer">Douluxme</span>
+            <span className="font-bold text-xl cursor-pointer text-[#A9471F]">Douluxme</span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 text-lg font-semibold">
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/totes">Shop</Link>
-          <Link href="/contact">Contact</Link>
+          <Link
+            href="/"
+            className="text-[#A9471F] inline-block relative overflow-hidden after:content-[''] after:block after:h-[2px] after:bg-[#A9471F] after:absolute after:left-0 after:bottom-0 after:w-0 hover:after:w-[75%] transition-all duration-500 ease-in-out"
+          >
+            Home
+          </Link>
+
+          <Link
+            href="/about"
+            className="text-[#A9471F] inline-block relative overflow-hidden after:content-[''] after:block after:h-[2px] after:bg-[#A9471F] after:absolute after:left-0 after:bottom-0 after:w-0 hover:after:w-[75%] transition-all duration-500 ease-in-out"
+          >
+            About
+          </Link>
+
+          <Link
+            href="/shop"
+            className="text-[#A9471F] inline-block relative overflow-hidden after:content-[''] after:block after:h-[2px] after:bg-[#A9471F] after:absolute after:left-0 after:bottom-0 after:w-0 hover:after:w-[75%] transition-all duration-500 ease-in-out"
+          >
+            Shop
+          </Link>
+
+          <Link
+            href="/contactus"
+            className="text-[#A9471F] inline-block relative overflow-hidden after:content-[''] after:block after:h-[2px] after:bg-[#A9471F] after:absolute after:left-0 after:bottom-0 after:w-0 hover:after:w-[75%] transition-all duration-500 ease-in-out"
+          >
+            Contact
+          </Link>
         </nav>
 
         {/* Mobile Nav Toggle */}
@@ -62,7 +84,7 @@ const Header = () => {
 
         {/* Auth/Login Placeholder */}
         <div className="hidden md:flex space-x-4 items-center">
-          <Link href="/login" className="text-sm font-medium text-[#4A8C8C] hover:underline">
+          <Link href="/login" className="text-sm font-medium text-[#A9471F] hover:text-[#A9471F] hover:underline">
             Login
           </Link>
         </div>
@@ -71,12 +93,45 @@ const Header = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden absolute top-[72px] left-0 w-full bg-white shadow-md z-50">
-          <nav className="flex flex-col space-y-4 p-4 text-center">
-            <Link href="/" className="block py-2">Home</Link>
-            <Link href="/about" className="block py-2">About</Link>
-            <Link href="/totes" className="block py-2">Shop</Link>
-            <Link href="/contact" className="block py-2">Contact</Link>
-            <Link href="/login" className="block py-2 text-[#4A8C8C] font-medium">Login</Link>
+          <nav className="flex flex-col space-y-4 p-4 text-center text-[#B65F50]">
+            <Link
+              href="/"
+              className="text-[#A9471F] inline-block relative group"
+            >
+              <span className="relative z-10">Home</span>
+              <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#A9471F] transition-all duration-500 ease-in-out group-hover:w-[75%]"></span>
+            </Link>
+
+            <Link
+              href="/about"
+              className="text-[#A9471F] inline-block relative group"
+            >
+              <span className="relative z-10">About</span>
+              <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#A9471F] transition-all duration-500 ease-in-out group-hover:w-[75%]"></span>
+            </Link>
+
+            <Link
+              href="/shop"
+              className="text-[#A9471F] inline-block relative group"
+            >
+              <span className="relative z-10">Shop</span>
+              <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#A9471F] transition-all duration-500 ease-in-out group-hover:w-[75%]"></span>
+            </Link>
+
+            <Link
+              href="/contact"
+              className="text-[#A9471F] inline-block relative group"
+            >
+              <span className="relative z-10">Contact</span>
+              <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#A9471F] transition-all duration-500 ease-in-out group-hover:w-[75%]"></span>
+            </Link>
+
+            <Link
+              href="/login"
+              className="block py-2 text-[#A9471F] font-medium"
+            >
+              Login
+            </Link>
           </nav>
         </div>
       )}

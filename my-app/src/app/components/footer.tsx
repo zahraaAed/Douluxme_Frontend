@@ -1,5 +1,5 @@
 import { FaWhatsapp, FaInstagram, FaEnvelope } from "react-icons/fa";
-
+import Link from "next/link";
 const Footer = () => {
   return (
     <>
@@ -20,9 +20,12 @@ const Footer = () => {
           <div>
             <h5 className="font-bold mb-2">PLATFORMS</h5>
             <ul className="flex flex-col items-center gap-1">
+            <Link href="/">
               <li className="flex items-center gap-2">
                 <FaEnvelope /> Email
+
               </li>
+              </Link>
               <li className="flex items-center gap-2">
                 <FaInstagram /> Instagram
               </li>

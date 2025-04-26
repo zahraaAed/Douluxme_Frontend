@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import { useEffect, useState } from "react";
 import axios from 'axios';
-
-
+import Header from './components/header';
+import Footer from './components/footer';
 interface Category {
   id: number;
   name: string;
@@ -15,7 +15,7 @@ interface Category {
 const NewTaskSection = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
- 
+
   useEffect(() => {
     // Using axios to fetch data
     axios.get("http://localhost:5000/api/categories/get")
@@ -28,13 +28,17 @@ const NewTaskSection = () => {
   }, []);
 
   return (
-    <div className="font-sans pt-20 md:pt-24">
+    <div className="font-sans">
+      <Header />
+      {/* Main Container */}
       {/* First Section: Image as Background + Heading */}
       <div className="relative flex flex-col md:flex-row items-center justify-between py-12 px-6 bg-[#FFF7F3] w-full h-[500px] md:h-[600px] lg:h-[1000px]">
         {/* Text Section with Background Image */}
-        <div className="md:w-1/2 text-left relative z-10 text-white">
-          <h2 className="text-4xl font-extrabold text-[#B65F50] leading-snug mb-4">
-            New Task Heading
+        <div className="md:w-1/2 text-left relative z-10 lg:w-full ">
+          <h2 className="text-4xl md:text-5xl font-extrabold leading-snug lg:text-7xl tracking-wide ml-30 text-[#B65F50]">
+            Good for You.  <br></br>
+            Even Better for <br></br>
+            Your Tastebuds.
           </h2>
 
         </div>
@@ -46,13 +50,13 @@ const NewTaskSection = () => {
             alt="Task Image"
             layout="fill"
             objectFit="cover"
-            className="rounded-lg h-auto"
+            className="h-auto  overflow-hidden"
           />
         </div>
       </div>
 
       {/* Second Section: Image + Text in Row */}
-      <div className="flex flex-col lg:flex-row items-center justify-evenly w-full py-12 px-6 bg-[#FFFBF1] gap-y-12 lg:gap-x-16">
+      <div className="flex flex-col lg:flex-row items-center justify-evenly w-full py-12 px-6 bg-[#FFFBF1] gap-y-12 lg:gap-x-16 mt-30">
         {/* Image Section */}
         <div className="lg:w-[25%] w-full">
           <Image
@@ -64,56 +68,66 @@ const NewTaskSection = () => {
           />
         </div>
 
-        {/* Text Section */}
-        <div className="lg:w-[45%] w-full text-left">
-          <h3 className="text-3xl font-semibold text-[#F48444] mb-4">
-            About Douluxme
+        <div className="flex flex-col justify-around items-start lg:w-[45%] w-full text-left h-[400px]">
+          <h3 className="text-4xl font-semibold text-[#F48444] uppercase">
+            what is Douluxme ?
           </h3>
-          <p className="text-[#9E2A16] text-lg font-normal leading-relaxed">
-            Here, you can describe the task in more detail. Explain what needs to be done, the goals, and any other relevant information.
+          <p className="text-[#9E2A16] text-2xl font-normal leading-relaxed">
+            At Douluxme, we make simple moments feel special. We take the finest dates, fill them with crunchy nuts, dip them in rich chocolate, and craft each one with real care. It's a small bite of luxury you can enjoy anytime — for yourself or as a gift.
           </p>
-          <button className='mt-4'>
-            <span className="text-white text-lg font-semibold bg-green-500 py-2 px-2">
-              Learn More
-            </span>
+          <button className="bg-[#A6CC9A] text-white text-lg font-semibold py-2 px-4 rounded-md">
+            Learn More
           </button>
         </div>
 
-     
+
+
       </div>
-      <div className="relative w-screen mt-20 overflow-visible">
-  {/* Green Bar */}
-  <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-green-500"></div>
+      <div className="relative w-screen overflow-visible mt-30">
+        {/* Green Bar */}
+        <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-[#A6CC9A]"></div>
 
-  {/* Image Positioned Below and Centered */}
-  <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-40 z-10 ml-50">
-    <img
-      src="/home3.jpeg"
-      alt="Date 1"
-      className="w-64 md:w-1/4 lg:w-1/2 h-auto object-cover mb-20"
-    />
-  </div>
-</div>
-<div className='mt-60'>
-<h2 className="text-4xl font-bold text-center mt-8 mb-4 text-[#F48444]">Discover By Categories</h2>
-<div className="grid grid-cols-6 sm:grid-cols-3 md:grid-cols-4 gap-6 p-4">
-      {categories.map((category) => (
-        <div
-          key={category.id}
-          className="flex flex-col items-center text-center bg-red-300 rounded-2xl shadow-md p-4 hover:shadow-lg transition"
-        >
+        {/* Image Positioned Below and Centered */}
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-40 z-10 ml-50">
           <img
-            src={category.image}
-            alt={category.name}
-            className="w-24 h-24 object-cover mb-3 bg-red-500"
+            src="/home3.jpeg"
+            alt="Date 1"
+            className="w-64 md:w-1/4 lg:w-1/2 h-auto object-cover mb-20"
           />
-          <p className="text-lg font-medium">{category.name}</p>
         </div>
-      ))}
-    </div>
-    </div>
+      </div>
+      <div className='mt-60 ml-30'>
+        <h2 className="text-4xl font-bold text-left mt-8 mb-12 text-[#F48444] uppercase">Discover By Categories</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 ">
+  {categories.map((category) => (
+    <div
+      key={category.id}
+      className="flex flex-col items-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 w-1/2 min-h-[300px]"
+    >
+      <img
+        src={`http://localhost:5000/uploads/${category.image}`}
+        alt={category.name}
+        className="w-full object-cover"
+      />
+<div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3">
+  <p className="text-white text-lg font-bold uppercase">{category.name}</p>
+  <button className="text-white text-md font-semibold bg-transparent border-none hover:bg-white hover:text-[#A9471F] hover:border-[#A9471F] hover:border-2 transition-all duration-300">
+  shop now
+</button>
+
+</div>
 
 
+    </div>
+  ))}
+</div>
+
+
+
+
+      </div>
+
+      <Footer />
     </div>
   )
 }
