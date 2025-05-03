@@ -1,4 +1,4 @@
-"use client"; // Add the "use client" directive to indicate client-side rendering
+"use client"; 
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
