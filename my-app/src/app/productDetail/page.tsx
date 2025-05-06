@@ -4,6 +4,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import Header from "../components/header";
+import { useUser } from "../context/authContext";
+import Slider from "react-slick";
+import { FaStar } from "react-icons/fa";
+
 interface Nut {
   variety: string;
 }
@@ -19,43 +23,82 @@ interface Product {
   image: string;
   nut: Nut;
   chocolate: Chocolate;
-  categoryId: number; 
+  categoryId: number;
+}
+
+interface Feedback {
+  id: number;
+  comment: string;
+  UserId: number;
+  ProductId: number;
+  user?: {
+    name: string;
+  };
 }
 
 const ProductDetail = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("productId");
+  const { user } = useUser(); // ✅ Use user from context
 
   const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [feedback, setFeedback] = useState<Feedback[] | null>(null);
+  const [newComment, setNewComment] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [quantity, setQuantity] = useState<number>(1);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+
+  const fetchProduct = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/products/get/${id}`);
+      setProduct(res.data);
+
+      const relatedRes = await axios.get(
+        `http://localhost:5000/api/products/get/products/category/${res.data.categoryId}`
+      );
+      setRelatedProducts(relatedRes.data);
+    } catch (err) {
+      console.error("Error fetching product:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchFeedback = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/feedbacks/product/${id}`);
+      setFeedback(res.data);
+    } catch (err) {
+      console.error("Error fetching feedback:", err);
+    }
+  };
+
+  const handleSubmitFeedback = async () => {
+    if (!newComment.trim() || !user) return;
+
+    try {
+      await axios.post("http://localhost:5000/api/feedbacks/create", {
+        comment: newComment,
+        ProductId: Number(id),
+        UserId: user.id, // ✅ Using context user ID
+      });
+
+      setNewComment("");
+      fetchFeedback();
+    } catch (err) {
+      console.error("Error submitting feedback:", err);
+    }
+  };
 
   useEffect(() => {
-    if (!id) return;
-
-    const fetchProduct = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/products/get/${id}`);
-        console.log("Fetched product:", res.data);
-        setProduct(res.data); // set full product object
-        // Fetch related products based on the current product's categoryId
-        const relatedRes = await axios.get(
-          `http://localhost:5000/api/products/get/products/category/${res.data.categoryId}`
-        );
-        setRelatedProducts(relatedRes.data); // set related products
-      } catch (err) {
-        console.error("Error fetching product:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
+    if (id) {
+      fetchProduct();
+      fetchFeedback();
+    }
   }, [id]);
 
-  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(1, Number(event.target.value));
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(1, Number(e.target.value));
     setQuantity(value);
   };
 
@@ -63,47 +106,33 @@ const ProductDetail = () => {
     console.log("Added to cart:", { id, name: product?.name, quantity });
   };
 
-  // Generate description safely
+  const totalPrice = product ? product.price * quantity : 0;
   const description = product
     ? `This product features ${product.chocolate?.type} chocolate with ${product.nut?.variety} nuts.`
     : "";
-    const totalPrice = product ? product.price * quantity : 0;
 
-  if (loading) {
-    return <div className="p-8 text-center">Loading...</div>;
-  }
-
-  if (!product) {
-    return <div className="p-8 text-center">No product found.</div>;
-  }
+  if (loading) return <div className="p-8 text-center">Loading...</div>;
+  if (!product) return <div className="p-8 text-center">No product found.</div>;
 
   return (
     <div className="mt-20">
       <Header />
- 
-    <div className="flex flex-col md:flex-row gap-8 p-8 mx-[30px] justify-center">
-      
-      {/* Product Image and Details */}
-      <div className="flex-1">
-        <img
-          src={`http://localhost:5000/uploads/${product.image}`}
-          alt={product.name}
-          className="w-full h-auto object-cover"
-        />
-      </div>
 
-      <div className="flex-1 justify-center flex flex-col">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-[#A9471F]">{product.name}</h2>
-          <p className="text-lg text-[#FF7F00]">${totalPrice}</p>
-
+      <div className="flex flex-col md:flex-row gap-8 p-8 mx-[30px] justify-center">
+        <div className="flex-1">
+          <img
+            src={`http://localhost:5000/uploads/${product.image}`}
+            alt={product.name}
+            className="w-full h-auto object-cover"
+          />
         </div>
-        <div className="border-b-2 mb-4"></div>
-        <p className="text-gray-700 mb-4">{description}</p>
-        <div className="border-b-2 mb-4"></div>
 
-        <div className="flex justify-between items-center mt-4">
-          <div className="flex items-center gap-4">
+        <div className="flex-1 flex flex-col justify-center">
+          <h2 className="text-2xl font-bold text-[#A9471F] mb-2">{product.name}</h2>
+          <p className="text-lg text-[#FF7F00] mb-4">${totalPrice}</p>
+          <p className="text-gray-700 mb-4">{description}</p>
+
+          <div className="flex items-center gap-4 mb-6">
             <label htmlFor="quantity" className="font-semibold text-[#A9471F]">
               Quantity:
             </label>
@@ -116,36 +145,111 @@ const ProductDetail = () => {
               min="1"
             />
           </div>
+
           <button
             onClick={handleAddToCart}
             className="bg-[#FF7F00] text-white px-6 py-2 rounded-md font-semibold"
           >
             Add to Cart
           </button>
-        </div>
 
-        {/* Border Below the Button */}
-        <div className="border-b-2 mt-4 mb-6"></div>
+          <div className="border-b-2 mt-6 mb-6"></div>
 
-        {/* Related Products Section */}
-        <div className="mt-8">
           <h3 className="text-2xl font-bold mb-4 text-[#A9471F]">Related Products</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {relatedProducts.map((relatedProduct) => (
-              <div key={relatedProduct.id} className="product-card">
+            {relatedProducts.map((item) => (
+              <div key={item.id} className="product-card">
                 <img
-                  src={`http://localhost:5000/uploads/${relatedProduct.image}`}
-                  alt={relatedProduct.name}
+                  src={`http://localhost:5000/uploads/${item.image}`}
+                  alt={item.name}
                   className="w-full h-auto object-cover"
                 />
-                <h4 className="mt-2 text-lg font-semibold">{relatedProduct.name}</h4>
-                <p className="text-lg text-[#FF7F00]">${relatedProduct.price}</p>
+                <h4 className="mt-2 text-lg font-semibold">{item.name}</h4>
+                <p className="text-lg text-[#FF7F00]">${item.price}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Feedback Section */}
+      <div className="p-8 bg-[#fdf7f2] text-center">
+  <h3 className="text-3xl font-bold text-black mb-8">REVIEWS AND RATING</h3>
+
+  {feedback && feedback.length > 0 ? (
+    <Slider
+      dots
+      infinite={false}
+      arrows={false}
+      speed={500}
+      slidesToShow={1}
+      slidesToScroll={1}
+      appendDots={(dots) => (
+        <div style={{ marginTop: "30px" }}>
+          <ul className="flex justify-center gap-6">{dots}</ul>
+        </div>
+      )}
+      customPaging={(i) => (
+        <div
+          className="w-6 h-6 rounded-full border-2 border-[#A9471F]"
+          style={{
+            backgroundColor:
+              document.querySelectorAll(".slick-dots li")[i]?.classList.contains("slick-active")
+                ? "#FFC589"
+                : "transparent",
+          }}
+        />
+      )}
+    >
+      {Array.from({ length: Math.ceil(feedback.length / 2) }).map((_, index) => {
+        const group = feedback.slice(index * 2, index * 2 + 2);
+        return (
+          <div key={index} className="flex md:flex-row justify-center gap-8 lg:flex-row">
+            {group.map((fb, idx) => (
+              <div
+                key={fb.id}
+                className={`w-full max-w-md p-4 rounded-md shadow-sm text-left ${
+                  idx % 2 === 0
+                    ? "border border-green-300 bg-transparent" // Transparent background, green border
+                    : "bg-[#A9471F] text-white border border-green-300" // Green background, green border
+                }`}
+              >
+                <p className="text-lg font-semibold text-[#A9471F] mb-2">
+                  {fb.user?.name || "Anonymous"}
+                </p>
+                <p className="text-gray-700">{fb.comment}</p>
+              </div>
+            ))}
+            {group.length === 1 && <div className="w-full max-w-md" />} {/* Keep layout even */}
+          </div>
+        );
+      })}
+    </Slider>
+  ) : (
+    <p className="text-gray-500">No feedback yet.</p>
+  )}
+
+  {user ? (
+    <div className="mt-8 flex flex-col items-center">
+      <textarea
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        className="w-full max-w-xl h-32 p-3 border border-gray-300 rounded mb-4"
+        placeholder="Leave your feedback here..."
+      />
+      <button
+        onClick={handleSubmitFeedback}
+        className="bg-[#FF7F00] text-white px-6 py-2 rounded-md font-semibold"
+      >
+        Submit Feedback
+      </button>
     </div>
+  ) : (
+    <p className="text-gray-500 mt-6">Please log in to leave feedback.</p>
+  )}
+</div>
+
+
     </div>
   );
 };

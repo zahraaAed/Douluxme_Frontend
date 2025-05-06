@@ -73,9 +73,9 @@ const CartList: React.FC = () => {
       )}
 
       {!loading && !error && carts.length > 0 && (
-        <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           {/* Cart Items List */}
-          <div className="flex-1 space-y-6 overflow-y-auto">
+          <div className="flex-1 space-y-6 overflow-y-auto ">
             {carts.map(cart => {
               const quantity = quantities[cart.id] || 1;
               const price = cart.product?.price || 0;
@@ -84,7 +84,7 @@ const CartList: React.FC = () => {
               return (
                 <div
                   key={cart.id}
-                  className="flex flex-col sm:flex-row items-center sm:justify-between p-4 bg-white rounded-lg shadow"
+                  className="flex flex-col sm:flex-row items-center sm:justify-between p-4 bg-white rounded-lg shadow w-full"
                 >
                   <div className="flex items-center w-full sm:w-auto space-x-4">
                     <img

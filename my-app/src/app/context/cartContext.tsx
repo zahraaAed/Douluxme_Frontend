@@ -34,6 +34,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    const getCartItemCount = () => {
+        return carts.length;  // Number of distinct products
+    };
+
     // Fetch cart data from API
     const fetchCartData = async () => {
         setLoading(true); // Set loading to true at the start
