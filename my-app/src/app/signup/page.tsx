@@ -6,6 +6,7 @@ import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AxiosError } from "axios";
 
 type Address = {
   phone: string;
@@ -39,22 +40,26 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useRouter();
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
 
-    if (name.startsWith("address.")) {
-      const addressKey = name.split(".")[1];
-      setSignUp((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          [addressKey]: value,
-        },
-      }));
-    } else {
-      setSignUp({ ...signUp, [name]: value });
-    }
-  };
+// Updated `handleInputChange` function
+const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const { name, value } = e.target;
+
+  // If the field is part of the address object
+  if (name.startsWith("address.")) {
+    const addressKey = name.split(".")[1] as keyof Address;  // Type `addressKey` as keyof Address
+    setSignUp((prev) => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        [addressKey]: value, // Properly updating the address field
+      },
+    }));
+  } else {
+    // Otherwise update the normal fields (email, password, etc.)
+    setSignUp({ ...signUp, [name]: value });
+  }
+};
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -71,10 +76,24 @@ const SignUp = () => {
       setTimeout(() => {
         navigate.push("/login");
       }, 3000);
-    } catch (error: any) {
-      console.log("Registration failed", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Registration failed. Please try again.");
-    }
+    }   catch (err) {
+              // First, ensure that the error is an AxiosError
+              if (err instanceof AxiosError) {
+                const message =
+                  err.response?.data?.message ||  // Check if the response has a message
+                  err.message ||                  // Fallback to the error message from AxiosError
+                  'Unknown error';                // Default message if no message is found
+            
+                console.error("Add Cart Error:", err);
+            
+                // Show the error message in the toast
+                toast.error(message);
+              } else {
+                // If the error is not an instance of AxiosError, handle it as a generic error
+                console.error("Non-Axios error:", err);
+                toast.error('An unknown error occurred');
+              }
+            }
     
   };
 
@@ -151,7 +170,7 @@ const SignUp = () => {
                 type="text"
                 id={field}
                 name={`address.${field}`}
-                value={(signUp.address as any)[field]}
+                value={signUp.address[field as keyof Address]}  // Properly type `field`
                 onChange={handleInputChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 text-black rounded-md shadow-sm focus:ring-[#A03321] focus:border-[#A03321] sm:text-sm"
               />

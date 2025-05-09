@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from 'react';
 import axios from "axios"
 import { useSearchParams, useRouter } from "next/navigation"
 import Header from "../components/header"
@@ -64,30 +64,39 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState<number>(1)
   const [addedToCart, setAddedToCart] = useState<boolean>(false)
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     try {
-      const res = await axios.get(`https://douluxme-backend.onrender.com/api/products/get/${id}`)
-      setProduct(res.data)
+      const res = await axios.get(`https://douluxme-backend.onrender.com/api/products/get/${id}`);
+      setProduct(res.data);
 
       const relatedRes = await axios.get(
         `https://douluxme-backend.onrender.com/api/products/get/products/category/${res.data.categoryId}`,
-      )
-      setRelatedProducts(relatedRes.data)
+      );
+      setRelatedProducts(relatedRes.data);
     } catch (err) {
-      console.error("Error fetching product:", err)
+      console.error("Error fetching product:", err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, [id]);
 
-  const fetchFeedback = async () => {
+ /*  const fetchFeedback = async () => {
     try {
       const res = await axios.get(`https://douluxme-backend.onrender.com/api/feedbacks/product/${id}`)
       setFeedback(res.data)
     } catch (err) {
       console.error("Error fetching feedback:", err)
     }
-  }
+  } */
+    const fetchFeedback = useCallback(async () => {
+      try {
+        const res = await axios.get(`https://douluxme-backend.onrender.com/api/feedbacks/product/${id}`);
+        setFeedback(res.data);
+      } catch (err) {
+        console.error("Error fetching feedback:", err);
+      }
+    }, [id]);
+  
 
   const handleSubmitFeedback = async () => {
     if (!newComment.trim() || !user) return
@@ -106,12 +115,20 @@ const ProductDetail = () => {
     }
   }
 
+
   useEffect(() => {
     if (id) {
-      fetchProduct()
-      fetchFeedback()
+      fetchProduct();
+      fetchFeedback();
     }
-  }, [id])
+  }, [id, fetchProduct, fetchFeedback]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (!product) {
+    return <div>No product found.</div>;
+  }
 
   // Check for redirect after login
   useEffect(() => {
@@ -158,7 +175,7 @@ const ProductDetail = () => {
     }
 
     // Call addCartItem to add the item to the cart
-    addCartItem(cartItem as any)
+    addCartItem(cartItem);
 
     // Show a success message
     toast.success("Added to cart!")

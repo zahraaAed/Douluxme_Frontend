@@ -9,7 +9,7 @@ import { useUser } from "../context/authContext"; // Make sure this path is corr
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false); // Controls mobile menu
-  const { user, logout } = useUser(); // Correct usage here
+  const {logout } = useUser(); // Correct usage here
 
   return (
     <div className="flex">
