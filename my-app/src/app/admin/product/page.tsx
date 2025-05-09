@@ -134,7 +134,7 @@ const ProductAdmin = () => {
         chocolateType: "",
         categoryName: ""
       });
-      const router = useRouter();  // Use Next.js router for redirection
+     
     } catch (err) {
       console.error("Error while submitting the product:", err);
       toast.error("Something went wrong! Please try again.");
@@ -148,7 +148,6 @@ const ProductAdmin = () => {
         await axios.delete(`https://douluxme-backend.onrender.com/api/products/delete/${productToDelete}`);
         toast.success("Product deleted successfully!");
         setIsDeleteConfirmOpen(false);
-        const router = useRouter();  // Use Next.js router for redirection
       } catch (err) {
         console.error("Error deleting product:", err);
         toast.error("Failed to delete product.");

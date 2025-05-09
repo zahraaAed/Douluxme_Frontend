@@ -15,12 +15,12 @@ interface Product {
   image: string
 }
 
-interface CartItem {
+/* interface CartItem {
   id: string
   productId: number
   quantity: number
   product?: Product
-}
+} */
 
 const CartList: React.FC = () => {
   const { carts, loading, error, updateCartItem, removeCartItem } = useCart()

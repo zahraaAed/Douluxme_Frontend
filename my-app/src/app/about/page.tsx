@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Footer from '../components/footer';
 import Header from '../components/header';
+
 export default function AboutDouluxme() {
   return (
     <div className="font-sans">
@@ -24,10 +25,10 @@ export default function AboutDouluxme() {
         {/* Paragraph below */}
         <div className="mt-20">
           <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal text-center max-w-7xl mx-auto leading-relaxed ">
-          At Douluxme, we believe little moments deserve something sweet.
-That's why we take soft dates, fill them with crunchy nuts, and dip them in rich, silky chocolate.
-Every piece is made with love, using only the best ingredients.
-A treat that feels good, tastes even better, and makes every day a little more special
+            At Douluxme, we believe little moments deserve something sweet.
+            That&apos;s why we take soft dates, fill them with crunchy nuts, and dip them in rich, silky chocolate.
+            Every piece is made with love, using only the best ingredients.
+            A treat that feels good, tastes even better, and makes every day a little more special.
           </p>
         </div>
       </div>
@@ -35,27 +36,24 @@ A treat that feels good, tastes even better, and makes every day a little more s
       {/* Decorative green bar */}
       <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-[#A6CC9A] mt-20"></div>
 
-
       {/* Centered Content Wrapper */}
       <div className="w-full flex justify-center">
         {/* Content Section */}
         <div className="relative flex flex-col md:flex-row items-center justify-evenly w-11/12 md:w-3/4 lg:w-2/3 mt-[-140px] gap-8">
-
           {/* Image Column */}
           <div className="relative z-10">
             <Image src="/about3.png" alt="Date 1" className="w-84 md:w-3/4 h-auto object-cover" />
           </div>
 
-
-    {/* Text Section */}
-    <div className="w-full md:w-1/2 flex flex-col items-center space-around md:items-start justify-center text-center md:text-left mt-4 md:mt-20 gap-y-4">
-      <h3 className="text-3xl md:text-4xl font-bold text-[#F48444]">Our Story</h3>
-      <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal w-[600px]">
-        Douluxme began with a girl who loved healthy food but craved something sweet.
-        She crafted the perfect treat — natural dates, crunchy nuts, and silky chocolate — no compromise, just pure joy.
-        Today, Douluxme brings that same love and passion to you.
-      </p>
-    </div>
+          {/* Text Section */}
+          <div className="w-full md:w-1/2 flex flex-col items-center space-around md:items-start justify-center text-center md:text-left mt-4 md:mt-20 gap-y-4">
+            <h3 className="text-3xl md:text-4xl font-bold text-[#F48444]">Our Story</h3>
+            <p className="text-[#9E2A16] text-base sm:text-lg md:text-2xl font-normal w-[600px]">
+              Douluxme began with a girl who loved healthy food but craved something sweet.
+              She crafted the perfect treat — natural dates, crunchy nuts, and silky chocolate — no compromise, just pure joy.
+              Today, Douluxme brings that same love and passion to you.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -70,7 +68,7 @@ A treat that feels good, tastes even better, and makes every day a little more s
               Mission
             </h4>
             <p className="text-gray-700 text-base sm:text-lg md:text-2xl">
-              To create treats that make people feel good—inside and out. We believe healthy can be delicious, and every bite should be a little moment of joy. We’re here to turn simple ingredients into something special, without compromise.
+              To create treats that make people feel good—inside and out. We believe healthy can be delicious, and every bite should be a little moment of joy. We&rsquo;re here to turn simple ingredients into something special, without compromise.
             </p>
           </div>
 
@@ -80,14 +78,14 @@ A treat that feels good, tastes even better, and makes every day a little more s
               Vision
             </h4>
             <p className="text-gray-700 text-base sm:text-lg md:text-2xl">
-              To change how the world sees sweets. We imagine a future where indulgence doesn’t mean guilt, where natural ingredients shine, and where everyone—no matter their lifestyle—can enjoy a little luxury, made with care.
+              To change how the world sees sweets. We imagine a future where indulgence doesn&rsquo;t mean guilt, where natural ingredients shine, and where everyone&mdash;no matter their lifestyle&mdash;can enjoy a little luxury, made with care.
             </p>
           </div>
         </div>
       </div>
-    
-  {/* Footer */}
-    <Footer />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
