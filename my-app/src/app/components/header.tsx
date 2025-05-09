@@ -20,10 +20,14 @@ useEffect(() => {
     }
   };
   document.addEventListener("mousedown", handleClickOutside);
+  
+  console.log("Dropdown open:", isDropdownOpen); // ← Add here
+
   return () => {
     document.removeEventListener("mousedown", handleClickOutside);
   };
-}, []);
+}, [isDropdownOpen]); // ← Add isDropdownOpen to deps array too
+
   return (
     <>
       <header className="top-0 z-50 w-full flex justify-between items-center px-4 md:px-10 py-4 md:py-6 bg-[#FFFAF4] shadow-md fixed ">

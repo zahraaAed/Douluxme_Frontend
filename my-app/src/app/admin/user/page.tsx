@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FiTrash, FiEdit } from "react-icons/fi";
@@ -46,7 +46,7 @@ const UsersPage = () => {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [_formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const router = useRouter();  // Use Next.js router for redirection
 
@@ -73,6 +73,7 @@ const UsersPage = () => {
           throw new Error("Not admin");
         }
       } catch (error) {
+        console.error(error);
         setIsAdmin(false);
         toast.error("Access denied. Admins only.");
         setTimeout(() => {
@@ -105,6 +106,7 @@ const UsersPage = () => {
         setUsers([]); // Fallback if users data is missing or not an array
       }
     } catch (error) {
+      console.error(error);
       toast.error("Error fetching users.");
     } finally {
       setLoading(false);
@@ -112,12 +114,14 @@ const UsersPage = () => {
   };
   
 
-  // Filter users based on the role filter
-  const filterUsers = () => {
+  const filterUsers = useCallback(() => {
     const filtered = users.filter((user) => roleFilter === "all" || user.role === roleFilter);
     setFilteredUsers(filtered);
-    console.log(filtered);  // Log the filtered users to check
-  };
+  }, [roleFilter, users]);
+  
+  useEffect(() => {
+    filterUsers();
+  }, [filterUsers]);
   
 
   // Validate the address fields before submitting
@@ -146,6 +150,7 @@ const UsersPage = () => {
       resetForm();
       toast.success("User added successfully!");
     } catch (error) {
+      console.error(error);
       toast.error("Failed to add user.");
     }
   };
@@ -158,6 +163,7 @@ const UsersPage = () => {
       setFilteredUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       toast.success("User deleted successfully!");
     } catch (error) {
+      console.error(error);
       toast.error("Failed to delete user.");
     }
   };
@@ -186,6 +192,7 @@ const UsersPage = () => {
       resetForm();
       toast.success("User updated successfully!");
     } catch (error) {
+      console.error(error);
       toast.error("Failed to update user.");
     }
   };

@@ -3,8 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { useUser } from '../context/authContext';
 import { useCart } from '../context/cartContext';
 import Header from '../components/header';
+
+type PopulatedCartItem = {
+    id: string;
+    quantity: number;
+    product: {
+      name: string;
+      price: number;
+    };
+  };
+  
+  
 const CheckoutPage = () => {
-    const [cartItems, setCartItems] = useState<any[]>([]);
+    const [cartItems, setCartItems] = useState<PopulatedCartItem[]>([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const { user } = useUser(); // Fetch user data from UserContext
     const { carts, fetchCartData } = useCart(); // Fetch cart data from CartContext
@@ -18,17 +29,23 @@ const CheckoutPage = () => {
     }, [user, fetchCartData]);
 
     useEffect(() => {
-        // Calculate the total price after cart items are fetched
-        const calculateTotalPrice = (items: any[]) => {
+        const calculateTotalPrice = (items: PopulatedCartItem[]) => {
             const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
             setTotalPrice(total);
         };
-        
+    
         if (carts) {
-            setCartItems(carts);
-            calculateTotalPrice(carts);
+            try {
+                // Cast with runtime check (optional but safer)
+                const populatedCarts = carts as unknown as PopulatedCartItem[];
+                setCartItems(populatedCarts);
+                calculateTotalPrice(populatedCarts);
+            } catch (e) {
+                console.error("Cart items are not in the expected format:", e);
+            }
         }
     }, [carts]);
+    
 
     return (
         <div className="min-h-screen bg-[#FFFBF1]">

@@ -82,7 +82,7 @@ const NewTaskSection = () => {
             what is Douluxme ?
           </h3>
           <p className="text-[#9E2A16] text-2xl font-normal leading-relaxed">
-            At Douluxme, we make simple moments feel special. We take the finest dates, fill them with crunchy nuts, dip them in rich chocolate, and craft each one with real care. It's a small bite of luxury you can enjoy anytime — for yourself or as a gift.
+            At Douluxme, we make simple moments feel special. We take the finest dates, fill them with crunchy nuts, dip them in rich chocolate, and craft each one with real care. It&apos;s a small bite of luxury you can enjoy anytime — for yourself or as a gift.
           </p>
           <Link href="/about" className="font-semibold underline hover:opacity-90">
           

@@ -123,13 +123,7 @@ const ProductDetail = () => {
     }
   }, [id, fetchProduct, fetchFeedback]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (!product) {
-    return <div>No product found.</div>;
-  }
-
+ 
   // Check for redirect after login
   useEffect(() => {
     // If user just logged in and there's a stored redirect URL, clear it

@@ -123,6 +123,7 @@ const ProductAdmin = () => {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Product added successfully!");
+        router.refresh(); 
       }
       setIsModalOpen(false); // Close modal after submit
       setFormData({
