@@ -4,6 +4,7 @@ import { createContext, useContext, useState, ReactNode, useEffect } from "react
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { AxiosError } from 'axios';
 
 interface User {
   id: string;
@@ -73,10 +74,24 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           router.push(lastVisitedPage);
         }
       }, 2000);
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.error || "Login failed. Please try again.";
-      toast.error(errorMessage);
+    }
+    catch (err) {
+      // First, ensure that the error is an AxiosError
+      if (err instanceof AxiosError) {
+        const message =
+          err.response?.data?.message ||  // Check if the response has a message
+          err.message ||                  // Fallback to the error message from AxiosError
+          'Unknown error';                // Default message if no message is found
+    
+        console.error("Add Cart Error:", err);
+    
+        // Show the error message in the toast
+        toast.error(message);
+      } else {
+        // If the error is not an instance of AxiosError, handle it as a generic error
+        console.error("Non-Axios error:", err);
+        toast.error('An unknown error occurred');
+      }
     }
   };
 

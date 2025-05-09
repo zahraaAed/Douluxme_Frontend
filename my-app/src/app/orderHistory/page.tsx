@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { useUser } from "../context/authContext";
+import Image from "next/image";
 
 type Product = {
   id: number;
@@ -161,7 +162,7 @@ const OrdersHistory: React.FC = () => {
                     key={item.id}
                     className="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm"
                   >
-                    <img
+                    <Image
                       src={item.product.image?.[0] || "https://via.placeholder.com/100"}
                       alt={item.product.name}
                       className="w-24 h-24 object-cover rounded-lg"

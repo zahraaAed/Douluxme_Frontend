@@ -5,6 +5,7 @@ import { FaPen, FaTrashAlt, FaPlusCircle } from "react-icons/fa"
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import Image from "next/image";
 
 // Interface for Product
 interface ProductAdmin {
@@ -185,7 +186,7 @@ const ProductAdmin = () => {
           {products.map(product => (
             <tr key={product.id} className="text-center border text-[#A03321]">
               <td className="p-2 border">
-                <img src={product.image} alt={product.name} className="w-12 h-12 object-cover mx-auto" />
+                <Image src={product.image} alt={product.name} className="w-12 h-12 object-cover mx-auto" />
               </td>
               <td className="p-2 border">{product.name}</td>
               <td className="p-2 border">${product.price}</td>

@@ -2,7 +2,8 @@
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-
+import { AxiosError } from 'axios';
+import { toast } from "react-toastify";
 
 export interface CartItem {
     id: string
@@ -36,10 +37,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const getCartItemCount = () => {
-        return carts.length;  // Number of distinct products
+  /*   const getCartItemCount = () => {
+        return carts.length;  
     };
-
+ */
     // Fetch cart data from API
     const fetchCartData = async () => {
         setLoading(true); // Set loading to true at the start
@@ -60,10 +61,23 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         try {
             const response = await axios.post('https://douluxme-backend.onrender.com/api/carts/create', item, { withCredentials: true });
             setCarts((prevCarts) => [...prevCarts, response.data]);
-        } catch (err: any) {
-            const message = err.response?.data?.message || err.message || 'Unknown error';
-            setError(`Failed to add item to cart: ${message}`);
-            console.error("Add Cart Error:", err.response || err);
+        } catch (err) {
+          // First, ensure that the error is an AxiosError
+          if (err instanceof AxiosError) {
+            const message =
+              err.response?.data?.message ||  // Check if the response has a message
+              err.message ||                  // Fallback to the error message from AxiosError
+              'Unknown error';                // Default message if no message is found
+        
+            console.error("Add Cart Error:", err);
+        
+            // Show the error message in the toast
+            toast.error(message);
+          } else {
+            // If the error is not an instance of AxiosError, handle it as a generic error
+            console.error("Non-Axios error:", err);
+            toast.error('An unknown error occurred');
+          }
         }
     };
     
@@ -93,9 +107,24 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
               item.id === id ? { ...item, quantity: updatedQuantity } : item
             )
           );
-        } catch (err: any) {
-          console.error('Error updating item quantity:', err.response?.data || err.message);
-          setError('Failed to update item quantity');
+        }
+        catch (err) {
+          // First, ensure that the error is an AxiosError
+          if (err instanceof AxiosError) {
+            const message =
+              err.response?.data?.message ||  // Check if the response has a message
+              err.message ||                  // Fallback to the error message from AxiosError
+              'Unknown error';                // Default message if no message is found
+        
+            console.error("Add Cart Error:", err);
+        
+            // Show the error message in the toast
+            toast.error(message);
+          } else {
+            // If the error is not an instance of AxiosError, handle it as a generic error
+            console.error("Non-Axios error:", err);
+            toast.error('An unknown error occurred');
+          }
         }
       };
       
@@ -107,8 +136,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
             await axios.delete(`https://douluxme-backend.onrender.com/api/carts/delete/${id}`,   { withCredentials: true }); // Replace with your actual API
             setCarts((prevCarts) => prevCarts.filter((item) => item.id !== id));
         } catch (err) {
-            setError('Failed to remove item from cart');
+          console.error('Failed to remove item from cart:', err);
+          setError('Failed to remove item from cart');
         }
+        
     };
 
     // Fetch cart data when the component mounts

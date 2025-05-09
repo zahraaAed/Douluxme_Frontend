@@ -58,6 +58,7 @@ const NewTaskSection = () => {
             alt="Task Image"
             layout="fill"
             objectFit="cover"
+            
             className="h-auto  overflow-hidden"
           />
         </div>
@@ -100,9 +101,11 @@ const NewTaskSection = () => {
 
         {/* Image Positioned Below and Centered */}
         <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-50 z-10 ">
-          <img
+          <Image
             src="/home3.png"
             alt="Date 1"
+            width={500}
+            height={300}
             className="w-90 md:w-1/4 lg:w-3/4 h-auto object-cover mb-20"
           />
         </div>
@@ -115,10 +118,12 @@ const NewTaskSection = () => {
       key={category.id}
       className="flex flex-col items-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 w-1/2 min-h-[300px]"
     >
-      <img
+      <Image
         src={`https://douluxme-backend.onrender.com/uploads/${category.image}`}
         alt={category.name}
         className="w-full object-cover"
+        width={500}
+        height={500}
       />
 <div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3 py-4">
   <p className="text-white text-lg font-bold uppercase">{category.name}</p>

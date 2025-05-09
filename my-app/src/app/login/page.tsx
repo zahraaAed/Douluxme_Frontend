@@ -99,7 +99,8 @@ const Login = () => {
           </button>
 
           <p className="mt-4 text-sm text-center text-[#A03321]">
-            Don't have an account?{" "}
+          Don&apos;t forget your password!
+
             <Link href="/signup" className="font-semibold underline hover:opacity-90">
               Sign up
             </Link>

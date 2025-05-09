@@ -22,12 +22,7 @@ const Sidebar = () => {
       >
         {/* Logo Section */}
         <div className="flex flex-col items-center">
-          <img
-            src="https://i.ibb.co/BXqy2R2/michella-logo-4x.png"
-            alt="Logo"
-            width={80}
-            height={80}
-          />
+          <h1>Douluxme</h1>
           <h2 className="text-xl font-bold mt-2">Mishatotebag</h2>
         </div>
 

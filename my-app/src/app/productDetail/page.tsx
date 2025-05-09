@@ -13,6 +13,7 @@ import { useCart } from "../context/cartContext"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Nut {
   variety: string
@@ -208,7 +209,7 @@ const ProductDetail = () => {
 
       <div className="flex md:flex-row gap-8 p-8 mx-[30px] justify-center">
         <div className="flex-1">
-          <img
+          <Image
             src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
             alt={product.name}
             className="w-full h-auto object-cover"
@@ -294,7 +295,7 @@ const ProductDetail = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {relatedProducts.map((item) => (
               <div key={item.id} className="product-card">
-                <img
+                <Image
                   src={`https://douluxme-backend.onrender.com/uploads/${item.image}`}
                   alt={item.name}
                   className="w-full h-auto object-cover"

@@ -17,7 +17,7 @@ export default function AboutDouluxme() {
           {/* Image with offset background */}
           <div className="relative w-fit">
             <div className="absolute top-4 left-4 w-full h-full bg-[#FDD9B5] -z-10 rounded-sm"></div>
-            <img src="/about1.jpeg" alt="Chocolates" className="w-90 md:w-96 object-cover" />
+            <Image src="/about1.jpeg" alt="Chocolates" className="w-90 md:w-96 object-cover" />
           </div>
         </div>
 
@@ -43,7 +43,7 @@ A treat that feels good, tastes even better, and makes every day a little more s
 
           {/* Image Column */}
           <div className="relative z-10">
-            <img src="/about3.png" alt="Date 1" className="w-84 md:w-3/4 h-auto object-cover" />
+            <Image src="/about3.png" alt="Date 1" className="w-84 md:w-3/4 h-auto object-cover" />
           </div>
 
 

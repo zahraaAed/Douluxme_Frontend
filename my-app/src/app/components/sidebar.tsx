@@ -8,9 +8,12 @@ interface SidebarProps {
   onFilterChange: (filter: { category: string; value: string }) => void
   selectedFilter: { category: string; value: string }
 }
-
+interface Category {
+  id: string;
+  name: string;
+}
 const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => {
-  const [categories, setCategories] = useState<any[]>([])
+  const [categories, setCategories] = useState<Category[]>([]);
   const [nuts, setNuts] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)

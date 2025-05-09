@@ -137,7 +137,7 @@ export default function ProductPage() {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div key={product.id} className="bg-white border rounded-xl p-4 shadow-sm text-center">
-                    <img
+                    <Image
                       src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
                       alt={product.name}
                       width={150}

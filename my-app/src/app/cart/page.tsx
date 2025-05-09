@@ -5,7 +5,8 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { useCart } from "../context/cartContext";
 import Header from "../components/header";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
+import Image from "next/image"
 
 interface Product {
   id: number
@@ -172,7 +173,7 @@ const CartList: React.FC = () => {
                   className="flex flex-col sm:flex-row items-center sm:justify-between p-4 bg-white rounded-lg shadow w-full"
                 >
                   <div className="flex items-center w-full sm:w-auto space-x-4">
-                    <img
+                    <Image
                       src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
                       alt={product.name}
                       className="w-24 h-24 object-cover rounded"
