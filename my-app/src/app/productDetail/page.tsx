@@ -1,9 +1,5 @@
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
-
-const ProductDetailClient = dynamic(() => import("./productDetailComponent"),{
-  ssr: false,
-});
+import ProductDetailClient from "./productDetailComponent";
 
 export default function ProductDetailPage() {
   return (
