@@ -46,7 +46,7 @@ const UsersPage = () => {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [_formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [, setFormErrors] = useState<Record<string, string>>({});
 
   const router = useRouter();  // Use Next.js router for redirection
 
