@@ -19,8 +19,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
     const fetchData = async () => {
     /*   try {
         const [nutsResponse, categoriesResponse] = await Promise.all([
-          axios.get("http://localhost:5000/api/nuts/get"),
-          axios.get("http://localhost:5000/api/categories/get"),
+          axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
+          axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
           console.log("Fetching data",response.data),
         ])
         setNuts(nutsResponse.data.map((nut: { variety: string }) => nut.variety))
@@ -33,8 +33,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
     } */
       try {
         const [nutsResponse, categoriesResponse] = await Promise.all([
-          axios.get("http://localhost:5000/api/nuts/get"),
-          axios.get("http://localhost:5000/api/categories/get"),
+          axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
+          axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
         ])
       
         console.log("Fetched nuts:", nutsResponse.data)

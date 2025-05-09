@@ -45,7 +45,7 @@ const OrdersHistory: React.FC = () => {
 
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/orders/user/${user.id}`,
+          `https://douluxme-backend.onrender.com/api/orders/user/${user.id}`,
           { withCredentials: true }
         );
         setOrders(res.data);

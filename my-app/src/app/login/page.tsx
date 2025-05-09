@@ -4,15 +4,16 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import { useUser } from "../context/authContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { ToastContainer } from "react-toastify"; 
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";  // Import useRouter to handle navigation
 
 const Login = () => {
   const [loginInput, setLoginInput] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
-  const { login } = useUser(); // get login from context
+  const { login } = useUser();  // Get login from context
+  const router = useRouter();  // Access the router to navigate
 
   useEffect(() => {
     setIsMounted(true);
@@ -25,6 +26,15 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await login(loginInput.email, loginInput.password);
+
+    // After login, check if there's a saved URL to redirect to
+    const redirectUrl = sessionStorage.getItem("redirectUrl");
+    if (redirectUrl) {
+      router.push(redirectUrl);  // Redirect to the page the user was trying to visit
+      sessionStorage.removeItem("redirectUrl");  // Clear the stored URL
+    } else {
+      router.push("/");  // Redirect to home page if no saved URL
+    }
   };
 
   if (!isMounted) return null;
@@ -100,6 +110,5 @@ const Login = () => {
     </div>
   );
 };
-
 
 export default Login;

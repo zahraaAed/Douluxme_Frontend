@@ -34,7 +34,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/products/get")
+      .get("https://douluxme-backend.onrender.com/api/products/get")
       .then((res) => {
         console.log("Fetched products:", res.data)
         setProducts(res.data)
@@ -138,7 +138,7 @@ export default function ProductPage() {
                 filteredProducts.map((product) => (
                   <div key={product.id} className="bg-white border rounded-xl p-4 shadow-sm text-center">
                     <img
-                      src={`http://localhost:5000/uploads/${product.image}`}
+                      src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
                       alt={product.name}
                       width={150}
                       height={150}

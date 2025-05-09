@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Header from './components/header';
 import Footer from './components/footer';
+import Link from 'next/link';
 interface Category {
   id: number;
   name: string;
@@ -18,7 +19,7 @@ const NewTaskSection = () => {
 
   useEffect(() => {
     // Using axios to fetch data
-    axios.get("http://localhost:5000/api/categories/get")
+    axios.get("https://douluxme-backend.onrender.com/api/categories/get")
       .then((response) => {
         setCategories(response.data);
       })
@@ -28,7 +29,7 @@ const NewTaskSection = () => {
   }, []);
 
   return (
-    <div className="font-sans">
+    <div>
       <Header />
       {/* Main Container */}
       {/* First Section: Image as Background + Heading */}
@@ -40,6 +41,13 @@ const NewTaskSection = () => {
             Even Better for <br></br>
             Your Tastebuds.
           </h2>
+          <Link href="/shop" className="font-semibold underline hover:opacity-90">
+          
+          <button className="bg-[#006039] text-white text-lg font-semibold py-2 px-4 rounded-md mx-auto mt-8">
+         
+            Start Shopping
+          </button>
+          </Link> 
 
         </div>
 
@@ -60,7 +68,7 @@ const NewTaskSection = () => {
         {/* Image Section */}
         <div className="lg:w-[25%] w-full">
           <Image
-            src="/home.png"
+            src="/home2.jpeg"
             alt="Another Image"
             width={500}
             height={300}
@@ -75,9 +83,12 @@ const NewTaskSection = () => {
           <p className="text-[#9E2A16] text-2xl font-normal leading-relaxed">
             At Douluxme, we make simple moments feel special. We take the finest dates, fill them with crunchy nuts, dip them in rich chocolate, and craft each one with real care. It's a small bite of luxury you can enjoy anytime — for yourself or as a gift.
           </p>
+          <Link href="/about" className="font-semibold underline hover:opacity-90">
+          
           <button className="bg-[#A6CC9A] text-white text-lg font-semibold py-2 px-4 rounded-md">
             Learn More
           </button>
+          </Link>
         </div>
 
 
@@ -88,11 +99,11 @@ const NewTaskSection = () => {
         <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-[#A6CC9A]"></div>
 
         {/* Image Positioned Below and Centered */}
-        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-40 z-10 ml-50">
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-50 z-10 ">
           <img
-            src="/home3.jpeg"
+            src="/home3.png"
             alt="Date 1"
-            className="w-64 md:w-1/4 lg:w-1/2 h-auto object-cover mb-20"
+            className="w-90 md:w-1/4 lg:w-3/4 h-auto object-cover mb-20"
           />
         </div>
       </div>
@@ -105,15 +116,17 @@ const NewTaskSection = () => {
       className="flex flex-col items-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 w-1/2 min-h-[300px]"
     >
       <img
-        src={`http://localhost:5000/uploads/${category.image}`}
+        src={`https://douluxme-backend.onrender.com/uploads/${category.image}`}
         alt={category.name}
         className="w-full object-cover"
       />
-<div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3">
+<div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3 py-4">
   <p className="text-white text-lg font-bold uppercase">{category.name}</p>
+  <Link href={`/shop`}>
   <button className="text-white text-md font-semibold bg-transparent border-none hover:bg-white hover:text-[#A9471F] hover:border-[#A9471F] hover:border-2 transition-all duration-300">
   shop now
 </button>
+</Link> 
 
 </div>
 

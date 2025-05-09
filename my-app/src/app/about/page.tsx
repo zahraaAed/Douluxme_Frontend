@@ -39,11 +39,11 @@ A treat that feels good, tastes even better, and makes every day a little more s
       {/* Centered Content Wrapper */}
       <div className="w-full flex justify-center">
         {/* Content Section */}
-        <div className="relative flex flex-col md:flex-row items-center justify-evenly w-11/12 md:w-3/4 lg:w-2/3 mt-[-50px] gap-8">
+        <div className="relative flex flex-col md:flex-row items-center justify-evenly w-11/12 md:w-3/4 lg:w-2/3 mt-[-140px] gap-8">
 
           {/* Image Column */}
           <div className="relative z-10">
-            <img src="/about2.jpeg" alt="Date 1" className="w-64 md:w-1/2 h-auto object-cover" />
+            <img src="/about3.png" alt="Date 1" className="w-84 md:w-3/4 h-auto object-cover" />
           </div>
 
 

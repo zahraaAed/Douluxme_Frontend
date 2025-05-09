@@ -61,7 +61,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/register",
+        "https://douluxme-backend.onrender.com/api/users/register",
         signUp,
         { withCredentials: true } 
       );

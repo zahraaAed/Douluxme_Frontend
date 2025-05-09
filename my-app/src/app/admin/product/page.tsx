@@ -44,7 +44,7 @@ const ProductAdmin = () => {
 
   // Fetch products on component mount
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products/get')
+    axios.get('https://douluxme-backend.onrender.com/api/products/get')
       .then(res => {
         setProducts(res.data);
       })
@@ -112,13 +112,13 @@ const ProductAdmin = () => {
     try {
       if (editProduct) {
         // Update existing product
-        await axios.patch(`http://localhost:5000/api/products/update/${editProduct.id}`, formDataToSend, {
+        await axios.patch(`https://douluxme-backend.onrender.com/api/products/update/${editProduct.id}`, formDataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Product updated successfully!");
       } else {
         // Create a new product
-        await axios.post('http://localhost:5000/api/products/create', formDataToSend, {
+        await axios.post('https://douluxme-backend.onrender.com/api/products/create', formDataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Product added successfully!");
@@ -144,7 +144,7 @@ const ProductAdmin = () => {
   const handleDeleteProduct = async () => {
     if (productToDelete) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/delete/${productToDelete}`);
+        await axios.delete(`https://douluxme-backend.onrender.com/api/products/delete/${productToDelete}`);
         toast.success("Product deleted successfully!");
         setIsDeleteConfirmOpen(false);
         const router = useRouter();  // Use Next.js router for redirection

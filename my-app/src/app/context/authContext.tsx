@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   // Function to fetch user data
   const getMe = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users/me", {
+      const response = await axios.get("https://douluxme-backend.onrender.com/api/users/me", {
         withCredentials: true, // Important to send cookies (token)
       });
       setUser(response.data.user);
@@ -43,15 +43,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       console.error("Failed to fetch user data", error);
     }
   };
+  
 
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/login",
+        "https://douluxme-backend.onrender.com/api/users/login",
         { email, password },
         { withCredentials: true }
       );
       const { token, user } = response.data;
+      console.log("Login response:", response.data);
+      console.log("User data:", user);
+      console.log("Token:", token);
 
       // Save token to cookies and session storage
       document.cookie = `token=${token}; path=/;`;
@@ -78,7 +82,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/users/logout", {}, {
+      await axios.post("https://douluxme-backend.onrender.com/api/users/logout", {}, {
         withCredentials: true, // important to send cookies
       });
 

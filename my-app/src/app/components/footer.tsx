@@ -6,10 +6,10 @@ const Footer = () => {
       <div className="bg-[#892D20] text-white py-6 px-6 text-sm mt-10 text-center">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center mt-10 mb-10">
           <div>
-            <h5 className="font-bold mb-2">LOGO</h5>
+            <p className="font-bold mb-2">Douluxme</p>
           </div>
           <div>
-            <h5 className="font-bold mb-2">NAVIGATION</h5>
+            <p className="font-bold mb-2">NAVIGATION</p>
             <ul className="space-y-1">
               <li>Home</li>
               <li>About</li>
@@ -18,7 +18,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h5 className="font-bold mb-2">PLATFORMS</h5>
+            <p className="font-bold mb-2">PLATFORMS</p>
             <ul className="flex flex-col items-center gap-1">
             <Link href="/">
               <li className="flex items-center gap-2">
