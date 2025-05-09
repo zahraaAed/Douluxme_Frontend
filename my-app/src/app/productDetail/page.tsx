@@ -217,6 +217,7 @@ const ProductDetail = () => {
   return (
   
     <div className="mt-20">
+         <Suspense fallback={<div>Loading reviews...</div>}> 
       <Header />
 
       <div className="flex md:flex-row gap-8 p-8 mx-[30px] justify-center">
@@ -319,7 +320,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      <Suspense fallback={<div>Loading reviews...</div>}> 
+   
       {/* Feedback Section - Updated to match the image exactly */}
       <div className="p-8 bg-[#fdf7f2] text-center">
         <h3 className="text-3xl font-bold text-black mb-8">REVIEWS AND RATING</h3>
