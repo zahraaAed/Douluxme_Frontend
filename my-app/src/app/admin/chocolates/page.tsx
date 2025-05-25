@@ -35,6 +35,7 @@ const ChocolatesPage = () => {
           throw new Error("Not authorized");
         }
       } catch (error) {
+        console.error("Error checking admin status:", error);
         toast.error("Access denied. Admins only.");
         setTimeout(() => router.push("/login"), 3000);
       } finally {
@@ -52,6 +53,7 @@ const ChocolatesPage = () => {
       });
       setChocolates(res.data);
     } catch (error) {
+      console.error("Failed to fetch chocolates:", error);
       toast.error("Failed to fetch chocolates.");
     }
   };
@@ -99,6 +101,7 @@ const ChocolatesPage = () => {
       toast.success("Chocolate updated!");
       setEditModalOpen(false);
     } catch (error) {
+      console.error("Failed to update chocolate:", error);
       toast.error("Failed to update chocolate.");
     }
   };
@@ -113,6 +116,7 @@ const ChocolatesPage = () => {
       setChocolates((prev) => prev.filter((n) => n.id !== id));
       toast.success("Chocolate deleted.");
     } catch (error) {
+      console.error("Failed to delete chocolate:", error);
       toast.error("Failed to delete chocolate.");
     }
   };

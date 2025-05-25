@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 interface Category {
   id: number;
@@ -28,6 +29,7 @@ const Categories = () => {
         const res = await axios.get('http://localhost:5000/api/users/me', {
           withCredentials: true,
         });
+  
         if (res.data.user.role === 'admin') {
           setIsAdmin(true);
           fetchCategories();
@@ -35,15 +37,21 @@ const Categories = () => {
           throw new Error('Not authorized');
         }
       } catch (error) {
-        toast.error('Access denied. Admins only.');
+        console.error('Admin check failed:', error); // ✅ logs full error
+        if (axios.isAxiosError(error) && error.response) {
+          toast.error(`Access denied: ${error.response.data.message || 'Admins only'}`);
+        } else {
+          toast.error('Access denied. Admins only.');
+        }
         setTimeout(() => router.push('/login'), 3000);
       } finally {
         setLoading(false);
       }
     };
-
+  
     checkAdminStatus();
-  }, []);
+  }, [router]); // ✅ include 'router' in dependency array
+  
 
   const fetchCategories = async () => {
     try {
@@ -51,9 +59,24 @@ const Categories = () => {
         withCredentials: true,
       });
       setCategories(res.data);
-    } catch (error) {
-      toast.error('Failed to fetch categories.');
-    }
+    }   catch (err) {
+              // First, ensure that the error is an AxiosError
+              if (err instanceof AxiosError) {
+                const message =
+                  err.response?.data?.message ||  // Check if the response has a message
+                  err.message ||                  // Fallback to the error message from AxiosError
+                  'Unknown error';                // Default message if no message is found
+            
+                console.error("category Error:", err);
+            
+                // Show the error message in the toast
+                toast.error(message);
+              } else {
+                // If the error is not an instance of AxiosError, handle it as a generic error
+                console.error("Non-Axios error:", err);
+                toast.error('An unknown error occurred');
+              }
+            }
   };
 
   const handleAddCategory = async (e: React.FormEvent) => {
@@ -78,9 +101,24 @@ const Categories = () => {
       fetchCategories();
       setName("");
       setImage(null);
-    } catch (error) {
-      toast.error("Failed to add category.");
-    }
+    }   catch (err) {
+              // First, ensure that the error is an AxiosError
+              if (err instanceof AxiosError) {
+                const message =
+                  err.response?.data?.message ||  // Check if the response has a message
+                  err.message ||                  // Fallback to the error message from AxiosError
+                  'Unknown error';                // Default message if no message is found
+            
+                console.error("category Error:", err);
+            
+                // Show the error message in the toast
+                toast.error(message);
+              } else {
+                // If the error is not an instance of AxiosError, handle it as a generic error
+                console.error("Non-Axios error:", err);
+                toast.error('An unknown error occurred');
+              }
+            }
   };
 
   const handleEditClick = (category: Category) => {
@@ -115,9 +153,24 @@ const Categories = () => {
       fetchCategories();
       toast.success('Category updated!');
       setEditModalOpen(false);
-    } catch (error) {
-      toast.error('Failed to update category.');
-    }
+    }   catch (err) {
+              // First, ensure that the error is an AxiosError
+              if (err instanceof AxiosError) {
+                const message =
+                  err.response?.data?.message ||  // Check if the response has a message
+                  err.message ||                  // Fallback to the error message from AxiosError
+                  'Unknown error';                // Default message if no message is found
+            
+                console.error("category Error:", err);
+            
+                // Show the error message in the toast
+                toast.error(message);
+              } else {
+                // If the error is not an instance of AxiosError, handle it as a generic error
+                console.error("Non-Axios error:", err);
+                toast.error('An unknown error occurred');
+              }
+            }
   };
 
   const handleDelete = async (id: number) => {
@@ -129,9 +182,24 @@ const Categories = () => {
       });
       setCategories((prev) => prev.filter((n) => n.id !== id));
       toast.success('Category deleted.');
-    } catch (error) {
-      toast.error('Failed to delete category.');
-    }
+    }  catch (err) {
+              // First, ensure that the error is an AxiosError
+              if (err instanceof AxiosError) {
+                const message =
+                  err.response?.data?.message ||  // Check if the response has a message
+                  err.message ||                  // Fallback to the error message from AxiosError
+                  'Unknown error';                // Default message if no message is found
+            
+                console.error("category Error:", err);
+            
+                // Show the error message in the toast
+                toast.error(message);
+              } else {
+                // If the error is not an instance of AxiosError, handle it as a generic error
+                console.error("Non-Axios error:", err);
+                toast.error('An unknown error occurred');
+              }
+            }
   };
 
   if (loading) {

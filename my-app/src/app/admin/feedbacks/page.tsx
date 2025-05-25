@@ -44,6 +44,7 @@ const Feedbacks = () => {
           throw new Error("Not authorized");
         }
       } catch (error) {
+        console.error("Error checking admin status:", error);
         toast.error("Access denied. Admins only.");
         setTimeout(() => router.push("/login"), 3000);
       } finally {
@@ -61,6 +62,7 @@ const Feedbacks = () => {
       });
       setFeedbacks(res.data);
     } catch (error) {
+      console.error("Failed to fetch feedbacks:", error);
       toast.error("Failed to fetch feedbacks.");
     }
   };
@@ -91,6 +93,7 @@ const Feedbacks = () => {
       toast.success("Feedback updated!");
       setEditModalOpen(false);
     } catch (error) {
+      console.error("Failed to update feedback:", error);
       toast.error("Failed to update feedback.");
     }
   };
@@ -105,6 +108,7 @@ const Feedbacks = () => {
       setFeedbacks((prev) => prev.filter((n) => n.id !== id));
       toast.success("Feedback deleted.");
     } catch (error) {
+      console.error("Failed to delete feedback:", error);
       toast.error("Failed to delete feedback.");
     }
   };

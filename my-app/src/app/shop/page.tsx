@@ -147,13 +147,18 @@ export default function ProductPage() {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div key={product.id} className="bg-white border rounded-xl p-4 shadow-sm text-center">
-                    <Image
-                      src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
-                      alt={product.name}
-                      width={150}
-                      height={150}
-                      className="mx-auto mb-2 object-contain h-[150px]"
-                    />
+                  <Image
+  src={
+    product.image.startsWith("http")
+      ? product.image
+      : `https://douluxme-backend.onrender.com/uploads/${product.image}`
+  }
+  alt={product.name}
+  width={150}
+  height={150}
+  className="mx-auto mb-2 object-contain h-[150px]"
+/>
+
                     <h2 className="font-semibold text-sm mb-1">{product.name}</h2>
                     <p className="text-xs text-gray-500 mb-1 capitalize">
                       {product.nut.variety} + {product.chocolate.type} chocolate
