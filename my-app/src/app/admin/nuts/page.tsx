@@ -35,6 +35,7 @@ const NutsPage = () => {
           throw new Error("Not authorized");
         }
       } catch (error) {
+        console.error("Error checking admin status:", error);
         toast.error("Access denied. Admins only.");
         setTimeout(() => router.push("/login"), 3000);
       } finally {
@@ -43,7 +44,7 @@ const NutsPage = () => {
     };
 
     checkAdminStatus();
-  }, []);
+  }, [router]);
 
   const fetchNuts = async () => {
     try {
@@ -52,6 +53,7 @@ const NutsPage = () => {
       });
       setNuts(res.data);
     } catch (error) {
+      console.error("Failed to fetch nuts:", error);
       toast.error("Failed to fetch nuts.");
     }
   };
@@ -86,7 +88,7 @@ const NutsPage = () => {
     if (!currentNut) return;
 
     try {
-      const res = await axios.patch(
+     await axios.patch(
         `http://localhost:5000/api/nuts/update/${currentNut.id}`,
         { variety, price },
         { withCredentials: true }
@@ -99,6 +101,7 @@ const NutsPage = () => {
       toast.success("Nut updated!");
       setEditModalOpen(false);
     } catch (error) {
+      console.error("Failed to update nut:", error);
       toast.error("Failed to update nut.");
     }
   };
@@ -113,6 +116,7 @@ const NutsPage = () => {
       setNuts((prev) => prev.filter((n) => n.id !== id));
       toast.success("Nut deleted.");
     } catch (error) {
+      console.error("Failed to delete nut:", error);
       toast.error("Failed to delete nut.");
     }
   };

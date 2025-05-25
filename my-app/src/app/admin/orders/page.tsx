@@ -155,9 +155,13 @@ const OrdersPage = () => {
         )
         toast.success("Order updated successfully.")
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error updating order:", err)
-      setError(err.response?.data?.message || "Unable to update order")
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Unable to update order")
+      } else {
+        setError("Unable to update order")
+      }
     }
   }
 

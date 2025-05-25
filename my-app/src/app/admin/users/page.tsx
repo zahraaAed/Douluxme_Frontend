@@ -83,7 +83,7 @@ const UsersPage = () => {
     };
   
     checkAdminStatus();
-  }, []);
+  }, [router]);
   
 
   // Fetch users from the backend

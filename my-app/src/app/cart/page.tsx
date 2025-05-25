@@ -18,7 +18,7 @@ interface Product {
 
 const CartList: React.FC = () => {
   const { carts, loading, error, updateCartItem, removeCartItem } = useCart()
-  const { user, isLoading: authLoading } = useUser() // Use the auth context
+  const { isLoading: authLoading } = useUser() // Use the auth context
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [cartProducts, setCartProducts] = useState<{ [key: number]: Product }>({})
   const [productsLoading, setProductsLoading] = useState(true)

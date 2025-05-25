@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState} from 'react';
 import { useSearchParams } from "next/navigation";
 import axios from 'axios';
 import { FiEdit, FiTrash } from "react-icons/fi";
@@ -51,7 +51,7 @@ const OrderItemsPage = () => {
 
         getOrderItems();
         getProducts();
-    }, [orderId]);
+    }, [orderId, API_URL]);
 
     const handleEditClick = (item) => {
         const productPrice = products[item.productId]?.price || 0;
