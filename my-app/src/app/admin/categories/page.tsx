@@ -139,7 +139,7 @@ const Categories = () => {
     }
 
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `http://localhost:5000/api/categories/update/${currentCategory.id}`,
         formData,
         {
