@@ -63,9 +63,9 @@ const OrdersPage = () => {
       } else {
         setError(`Unexpected response status: ${response.status}`)
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error fetching orders:", err)
-      setError(err.response?.data?.message || "Unable to get orders")
+     
     } finally {
       setLoading(false)
     }
@@ -106,12 +106,16 @@ const OrdersPage = () => {
       } else {
         setError("Failed to delete order. Unexpected response.")
       }
-    } catch (err: any) {
-      console.error("Error deleting order:", err.response?.data || err.message)
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.error("Error deleting order:", err.response?.data || err.message)
+      } else {
+        console.error("Error deleting order:", err)
+      }
 
-      if (err.response?.status === 403) {
+      if (axios.isAxiosError(err) && err.response?.status === 403) {
         setError("You don't have permission to delete this order.")
-      } else if (err.response?.status === 404) {
+      } else if (axios.isAxiosError(err) && err.response?.status === 404) {
         setError("Order not found.")
       } else {
         setError("Unable to delete order. Please try again.")

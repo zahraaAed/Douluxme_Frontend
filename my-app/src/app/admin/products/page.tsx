@@ -179,8 +179,8 @@ const ProductAdmin = () => {
 
       setIsModalOpen(false)
       fetchProducts()
-    } catch (err: any) {
-      if (err.response) {
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
         console.error("API error:", err.response.data)
         toast.error(err.response.data.message || "Error from server.")
       } else {
