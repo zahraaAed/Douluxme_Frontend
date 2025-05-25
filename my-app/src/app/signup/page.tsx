@@ -66,7 +66,7 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>)
 
     try {
       const response = await axios.post(
-        "https://douluxme-backend.onrender.com/api/users/register",
+        "http://localhost:5000/api/users/register",
         signUp,
         { withCredentials: true } 
       );
@@ -180,7 +180,7 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>)
           {/* Submit */}
           <button
             type="submit"
-            className="w-full mt-6 py-2 px-4 rounded-md shadow-md bg-[#A6CC9A] text-[#A03321] font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A03321]"
+            className="w-full mt-6 py-2 px-4 rounded-md shadow-md bg-[#808000] text-white font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A03321]"
           >
             SIGN UP
           </button>

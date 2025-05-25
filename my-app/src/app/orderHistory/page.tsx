@@ -46,7 +46,7 @@ const OrdersHistory: React.FC = () => {
 
       try {
         const res = await axios.get(
-          `https://douluxme-backend.onrender.com/api/orders/user/${user.id}`,
+          `http://localhost:5000/api/orders/user/${user.id}`,
           { withCredentials: true }
         );
         setOrders(res.data);
@@ -129,7 +129,7 @@ const OrdersHistory: React.FC = () => {
           onClick={handleSearch}
           disabled={!startDate && !endDate}
           className={`px-4 py-2 rounded-md text-white mt-6 ${
-            startDate || endDate ? "bg-[#4A8C8C] hover:bg-[#357474]" : "bg-gray-400 cursor-not-allowed"
+            startDate || endDate ? "bg-[#808000] hover:bg-[#357474]" : "bg-gray-400 cursor-not-allowed"
           }`}
         >
           Search
@@ -138,7 +138,7 @@ const OrdersHistory: React.FC = () => {
         {(startDate || endDate) && (
           <button
             onClick={handleClear}
-            className="px-4 py-2 bg-red-500 text-white rounded-md mt-6"
+            className="px-4 py-2 bg-[#A9471F] text-white rounded-md mt-6"
           >
             Clear
           </button>
@@ -162,11 +162,15 @@ const OrdersHistory: React.FC = () => {
                     key={item.id}
                     className="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm"
                   >
-                    <Image
-                      src={item.product.image?.[0] || "https://via.placeholder.com/100"}
-                      alt={item.product.name}
-                      className="w-24 h-24 object-cover rounded-lg"
-                    />
+<Image
+  src={`http://localhost:5000/uploads/${item.product.image}`}
+  alt={item.product.name}
+  className="w-24 h-24 object-cover rounded-lg"
+  width={100}
+  height={100}
+/>
+
+
                     <div className="flex-1 ml-4">
                       <div className="text-lg font-medium text-gray-900">{item.product.name}</div>
                       <div className="text-sm text-gray-500">Price: ${item.product.price}</div>

@@ -22,6 +22,7 @@ interface Product {
   category: {
     name: string
   }
+  boxSize: string // Add this line for box size (assuming this exists)
 }
 
 export default function ProductPage() {
@@ -57,19 +58,16 @@ export default function ProductPage() {
 
     switch (filter.category) {
       case "Bars":
-        filtered = products.filter((product) => product.nut.variety === filter.value)
+        filtered = products.filter((product) => 
+          product.nut.variety === filter.value && product.name.toLowerCase().includes("bar")
+        )
         break
       case "Boxes":
-        // Assuming box size is stored somewhere in the product data
-        // This is a placeholder - adjust according to your actual data structure
-        filtered = products.filter(
-          (product) =>
-            product.name.toLowerCase().includes(`box of ${filter.value}`) ||
-            product.name.toLowerCase().includes(`${filter.value} pieces`),
+        filtered = products.filter((product) =>
+          product.boxSize === filter.value && product.name.toLowerCase().includes("box")
         )
         break
       case "Gifts":
-        // Filter by gift type
         filtered = products.filter((product) => product.name.toLowerCase().includes(filter.value.toLowerCase()))
         break
       case "Categories":
@@ -93,21 +91,33 @@ export default function ProductPage() {
       <Header />
 
       {/* Hero Section */}
-      <div className="relative w-full h-[80vh] md:h-[110vh] bg-[#FFF7F3] overflow-hidden mt-20">
-        <div className="absolute inset-0">
-          <Image src="/Shop.png" alt="Order Hero" fill className="w-full h-full object-cover" priority />
-        </div>
-        <div className="relative z-10 flex items-center h-full px-8 text-[#B65F50]">
-          <div className="text-left">
-            <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold leading-snug max-w-4xl ml-30">
-              WHAT WOULD YOU <br /> LIKE TO ORDER
-            </h2>
-          </div>
-        </div>
-      </div>
+      <div className="relative w-full min-h-[70vh] lg:min-h-screen overflow-hidden">
+  {/* Background Image */}
+  <div className="absolute inset-0 -z-10">
+    <Image
+      src="/Shop.png"
+      alt="Order Hero"
+      fill
+      sizes="100vw"
+      className="object-cover object-center"
+      priority
+    />
+  </div>
+
+  {/* Overlay Text Content */}
+  <div className="relative z-10 flex items-center justify-left min-h-[70vh] lg:min-h-screen px-6 sm:px-10 md:px-20 text-[#B65F50]">
+    <div className="text-left max-w-4xl">
+    <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-snug">
+  WHAT WOULD YOU <br /> LIKE TO ORDER
+</h2>
+
+    </div>
+  </div>
+</div>
+
 
       {/* Content Section */}
-      <div className="flex flex-col md:flex-row px-6 md:px-12 mt-10">
+      <div className="flex flex-col md:flex-row px-6 md:px-12 mt-10 ml-5 lg:ml-30">
         {/* Sidebar */}
         <Sidebar onFilterChange={handleFilterChange} selectedFilter={selectedFilter} />
 
@@ -151,7 +161,7 @@ export default function ProductPage() {
                     <p className="text-sm text-gray-600 mb-2">${product.price}</p>
                  
                     <Link href={`/productDetail?productId=${product.id}`}>
-                    <button className="w-full bg-[#D3E8A5] text-[#5B5B5B] hover:bg-[#c6e09a] py-1 rounded">
+                    <button className="w-full bg-[#808000] text-white hover:bg-[#c6e09a] py-1 rounded">
                    View Details
                     </button>
                     </Link>

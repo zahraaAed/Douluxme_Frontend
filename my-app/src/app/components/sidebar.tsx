@@ -8,45 +8,46 @@ interface SidebarProps {
   onFilterChange: (filter: { category: string; value: string }) => void
   selectedFilter: { category: string; value: string }
 }
+
 interface Category {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
+
+interface Product {
+  id: string
+  name: string
+  boxSize: string
+}
+
 const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>([])
   const [nuts, setNuts] = useState<string[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
 
+  const [boxSizes, setBoxSizes] = useState<string[]>([])
+
   useEffect(() => {
     const fetchData = async () => {
-    /*   try {
-        const [nutsResponse, categoriesResponse] = await Promise.all([
-          axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
-          axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
-          console.log("Fetching data",response.data),
-        ])
-        setNuts(nutsResponse.data.map((nut: { variety: string }) => nut.variety))
-        setCategories(categoriesResponse.data)
-      } catch (error) {
-        console.error("Failed to fetch data", error)
-      } finally {
-        setLoading(false)
-      }
-    } */
       try {
-        const [nutsResponse, categoriesResponse] = await Promise.all([
-          axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
-          axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
+        const [nutsRes, categoriesRes, productsRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/nuts/get"),
+          axios.get("http://localhost:5000/api/categories/get"),
+          axios.get("http://localhost:5000/api/products/get")
         ])
-      
-        console.log("Fetched nuts:", nutsResponse.data)
-        console.log("Fetched categories:", categoriesResponse.data)
-      
-        setNuts(nutsResponse.data.map((nut: { variety: string }) => nut.variety))
-        setCategories(categoriesResponse.data)
+
+        setNuts(nutsRes.data.map((nut: { variety: string }) => nut.variety))
+        setCategories(categoriesRes.data)
+        setProducts(productsRes.data)
+
+        const sizes = [
+          ...new Set(productsRes.data.map((product: Product) => product.boxSize))
+        ].filter(Boolean)
+        setBoxSizes(boxSizes)
       } catch (error) {
-        console.error("Failed to fetch data", error)
+        console.error("Failed to fetch sidebar data", error)
       } finally {
         setLoading(false)
       }
@@ -59,28 +60,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
     onFilterChange({ category, value })
   }
 
-  // Determine options based on category name
   const getOptionsForCategory = (categoryName: string): string[] => {
-    const lowerName = categoryName.toLowerCase()
-  
-    if (lowerName.includes("bar")) {
-      return nuts
-    }
-    if (lowerName.includes("box")) {
-      return ["6", "12", "24"]
-    }
-    if (lowerName.includes("gift")) {
-      return ["Ramadan", "Prophet Muhammad", "Eid Mubarak"]
-    }
-  
-    // Default: if no special options, just return the category itself as one option
+    const lower = categoryName.toLowerCase()
+    if (lower.includes("bar")) return nuts
+    if (lower.includes("box")) return boxSizes
+    if (lower.includes("gift")) return ["Ramadan", "Prophet Muhammad", "Eid Mubarak"]
     return [categoryName]
   }
-  
 
   return (
-    <aside className="md:w-[200px] w-full text-2xl flex flex-col gap-4 text-[#FFA76B] font-bold mt-20 ml-30 md:mb-0">
-      {/* Mobile Toggle Button */}
+    <aside className="md:w-[200px] w-full text-2xl flex flex-col gap-4 text-[#FFA76B] font-bold mt-20">
       <button
         className="md:hidden mb-4 bg-[#FFA76B] text-white px-4 py-2 rounded"
         onClick={() => setIsSidebarOpen((prev) => !prev)}
@@ -88,7 +77,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
         {isSidebarOpen ? "Hide Filters" : "Show Filters"}
       </button>
 
-      {/* Sidebar Content */}
       {isSidebarOpen && (
         <div className="flex flex-col gap-4">
           {loading ? (
@@ -96,8 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
           ) : (
             categories.map((category) => {
               const options = getOptionsForCategory(category.name)
-
-              if (options.length === 0) return null // If no options, skip rendering this category
+              if (options.length === 0) return null
 
               return (
                 <details
@@ -111,7 +98,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
                       <div
                         key={option}
                         className={`cursor-pointer hover:text-[#FF7F00] ${
-                          selectedFilter.category === category.name && selectedFilter.value === option
+                          selectedFilter.category === category.name &&
+                          selectedFilter.value === option
                             ? "text-[#FF7F00] font-semibold"
                             : ""
                         }`}

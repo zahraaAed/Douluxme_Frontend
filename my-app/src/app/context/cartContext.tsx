@@ -1,5 +1,4 @@
-// context/CartContext.tsx
-
+// context/CartContext.t
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AxiosError } from 'axios';
@@ -16,15 +15,36 @@ export interface CartItem {
     quantity: number
   }
   
-  interface CartContextType {
-    carts: CartItem[]
-    loading: boolean
-    error: string | null
-    addCartItem: (item: NewCartItem) => void
-    updateCartItem: (id: string, quantity: number) => void
-    removeCartItem: (id: string) => void
-    fetchCartData: () => void
+
+  interface RawCartItem {
+    id: string;
+    productId: number;
+    quantity: number;
+    product: {
+      id: number;
+      name: string;
+      // Add more fields if needed
+    };
+    user: {
+      id: number;
+      email: string;
+      // Add more fields if needed
+    };
   }
+  interface CartContextType {
+    carts: CartItem[];
+    loading: boolean;
+    error: string | null;
+    addCartItem: (item: NewCartItem) => void;
+    updateCartItem: (id: string, quantity: number) => void;
+    removeCartItem: (id: string) => void;
+    fetchCartData: () => void;
+    clearCart: () => void;   // Add this line
+    cartCount: number; // <-- Add this line
+    isCartOpen: boolean;
+    toggleCart: () => void;
+  }
+  
   
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -41,12 +61,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         return carts.length;  
     };
  */
+
+     // Cart UI state
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const toggleCart = () => setIsCartOpen((prev) => !prev);
+
     // Fetch cart data from API
     const fetchCartData = async () => {
         setLoading(true); // Set loading to true at the start
         try {
-            const response = await axios.get('https://douluxme-backend.onrender.com/api/carts/get',    { withCredentials: true });
+            const response = await axios.get('http://localhost:5000/api/carts/get',    { withCredentials: true });
             console.log(response.data); // Log the data to check its structure
+          
             setCarts(response.data); // Set the fetched cart data
         } catch (err) {
             setError('Failed to load cart data');
@@ -59,8 +85,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     // Add a cart item (Create)
     const addCartItem = async (item: NewCartItem) => {
         try {
-            const response = await axios.post('https://douluxme-backend.onrender.com/api/carts/create', item, { withCredentials: true });
-            setCarts((prevCarts) => [...prevCarts, response.data]);
+            const response = await axios.post('http://localhost:5000/api/carts/create', item, { withCredentials: true });
+            await fetchCartData(); 
+           /*  setCarts((prevCarts) => [...prevCarts, response.data]); */
         } catch (err) {
           // First, ensure that the error is an AxiosError
           if (err instanceof AxiosError) {
@@ -88,7 +115,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       
         try {
           const response = await axios.patch(
-            `https://douluxme-backend.onrender.com/api/carts/update/${id}`,
+            `http://localhost:5000/api/carts/update/${id}`,
             { quantity },
             {
               withCredentials: true,
@@ -101,6 +128,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           console.log('Update response:', response.data);
       
           const updatedQuantity = response.data.quantity ?? quantity;
+          await fetchCartData(); 
       
           setCarts((prevCarts) =>
             prevCarts.map((item) =>
@@ -133,7 +161,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     // Remove a cart item (Delete)
     const removeCartItem = async (id: string) => {
         try {
-            await axios.delete(`https://douluxme-backend.onrender.com/api/carts/delete/${id}`,   { withCredentials: true }); // Replace with your actual API
+            await axios.delete(`http://localhost:5000/api/carts/delete/${id}`,   { withCredentials: true }); // Replace with your actual API
             setCarts((prevCarts) => prevCarts.filter((item) => item.id !== id));
         } catch (err) {
           console.error('Failed to remove item from cart:', err);
@@ -142,20 +170,40 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         
     };
 
+
+  // Clear all items from the cart
+  const clearCart = async () => {
+    try {
+      // Delete all cart items one by one
+      for (const item of carts) {
+        await axios.delete(`http://localhost:5000/api/carts/delete/${item.id}`, { withCredentials: true })
+      }
+      // Clear the local state
+      setCarts([])
+      toast.success("Cart cleared successfully")
+    } catch (err) {
+      console.error("Failed to clear cart:", err)
+      setError("Failed to clear cart")
+      toast.error("Failed to clear cart")
+    }
+  }
+
     // Fetch cart data when the component mounts
     useEffect(() => {
         fetchCartData();
     }, []); // Runs once when the component mounts
-    console.log(carts); // Log to inspect the structure of the data returned
-    
-    
-    return (
-        <CartContext.Provider value={{ carts, loading, error, addCartItem, updateCartItem, removeCartItem, fetchCartData }}>
-            {children}
-        </CartContext.Provider>
-    );
-};
 
+    
+    
+return (
+    <CartContext.Provider
+      value={{ carts, loading, error, addCartItem, updateCartItem, removeCartItem, fetchCartData, clearCart,cartCount: carts.reduce((sum, item) => sum + item.quantity, 0),    isCartOpen,
+        toggleCart, }}
+    >
+      {children}
+    </CartContext.Provider>
+  )
+}
 // Custom hook to use CartContext
 export const useCart = () => {
     const context = useContext(CartContext);

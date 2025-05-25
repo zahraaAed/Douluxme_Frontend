@@ -3,10 +3,11 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { useCart } from "../context/cartContext";
-import Header from "../components/header";
-import { useRouter } from "next/navigation";
+import { useCart } from "../context/cartContext"
+import Header from "../components/header"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { useUser } from "../context/authContext"
 
 interface Product {
   id: number
@@ -15,22 +16,13 @@ interface Product {
   image: string
 }
 
-/* interface CartItem {
-  id: string
-  productId: number
-  quantity: number
-  product?: Product
-} */
-
 const CartList: React.FC = () => {
   const { carts, loading, error, updateCartItem, removeCartItem } = useCart()
+  const { user, isLoading: authLoading } = useUser() // Use the auth context
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({})
   const [cartProducts, setCartProducts] = useState<{ [key: number]: Product }>({})
   const [productsLoading, setProductsLoading] = useState(true)
   const router = useRouter()
-
-  // Simulate the login check (replace this with actual auth logic)
-  const isLoggedIn = true // Changed to true for testing purposes
 
   // Fetch product details for cart items
   useEffect(() => {
@@ -49,7 +41,7 @@ const CartList: React.FC = () => {
         await Promise.all(
           productIds.map(async (productId) => {
             try {
-              const response = await axios.get(`https://douluxme-backend.onrender.com/api/products/get/${productId}`)
+              const response = await axios.get(`http://localhost:5000/api/products/get/${productId}`)
               productData[productId] = response.data
             } catch (err) {
               console.error(`Error fetching product ${productId}:`, err)
@@ -71,23 +63,15 @@ const CartList: React.FC = () => {
   }, [carts, loading])
 
   useEffect(() => {
-    // Only run on client-side
-    if (typeof window !== "undefined") {
-      if (!isLoggedIn) {
-        // Use pathname instead of asPath (asPath is deprecated in App Router)
-        const currentPath = window.location.pathname
-        sessionStorage.setItem("redirectUrl", currentPath)
-        router.push("/login")
-      } else {
-        // Otherwise, load the cart items
-        const initialQuantities: { [key: string]: number } = {}
-        carts.forEach((cart) => {
-          initialQuantities[cart.id] = cart.quantity
-        })
-        setQuantities(initialQuantities)
-      }
+    // Initialize quantities when cart items are loaded
+    if (!loading && carts.length > 0) {
+      const initialQuantities: { [key: string]: number } = {}
+      carts.forEach((cart) => {
+        initialQuantities[cart.id] = cart.quantity
+      })
+      setQuantities(initialQuantities)
     }
-  }, [isLoggedIn, carts, router])
+  }, [carts, loading])
 
   const handleQuantityChange = (id: string, value: number) => {
     const newQuantity = Math.max(1, value)
@@ -117,7 +101,7 @@ const CartList: React.FC = () => {
     return sum + price * qty
   }, 0)
 
-  const isPageLoading = loading || productsLoading
+  const isPageLoading = loading || productsLoading || authLoading
 
   return (
     <div className="min-h-screen bg-[#FFFBF1]">
@@ -127,7 +111,7 @@ const CartList: React.FC = () => {
           <h2 className="text-3xl font-bold text-[#B65F50] mb-4 md:mb-0">Your Cart</h2>
           <button
             onClick={() => router.push("/shop")}
-            className="px-6 py-2 bg-[#A6CC9A] text-white font-semibold rounded-lg hover:bg-green-600"
+            className="px-6 py-2 bg-[#808000] text-white font-semibold rounded-lg hover:bg-green-600"
           >
             Continue Shopping
           </button>
@@ -148,7 +132,7 @@ const CartList: React.FC = () => {
           <p className="text-xl text-gray-500 mb-6">Your cart is empty</p>
           <button
             onClick={() => router.push("/shop")}
-            className="px-6 py-2 bg-[#A6CC9A] text-white font-semibold rounded-lg hover:bg-green-600"
+            className="px-6 py-2 bg-[#808000] text-white font-semibold rounded-lg hover:bg-green-600"
           >
             Start Shopping
           </button>
@@ -174,8 +158,10 @@ const CartList: React.FC = () => {
                 >
                   <div className="flex items-center w-full sm:w-auto space-x-4">
                     <Image
-                      src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
+                      src={`http://localhost:5000/uploads/${product.image}`}
                       alt={product.name}
+                      width={96}
+                      height={96}
                       className="w-24 h-24 object-cover rounded"
                     />
                     <div className="mt-3 sm:mt-0">
@@ -230,7 +216,7 @@ const CartList: React.FC = () => {
 
             <button
               onClick={() => router.push("/checkout")}
-              className="w-full mt-6 py-3 bg-[#A6CC9A] text-white font-semibold rounded-lg hover:bg-green-600"
+              className="w-full mt-6 py-3 bg-[#808000] text-white font-semibold rounded-lg hover:bg-green-600"
             >
               Checkout
             </button>

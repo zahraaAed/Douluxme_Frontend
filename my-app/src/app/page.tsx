@@ -32,37 +32,30 @@ const NewTaskSection = () => {
     <div>
       <Header />
       {/* Main Container */}
-      {/* First Section: Image as Background + Heading */}
-      <div className="relative flex flex-col md:flex-row items-center justify-between py-12 px-6 bg-[#FFF7F3] w-full h-[500px] md:h-[600px] lg:h-[1000px]">
-        {/* Text Section with Background Image */}
-        <div className="md:w-1/2 text-left relative z-10 lg:w-full ">
-          <h2 className="text-4xl md:text-5xl font-extrabold leading-snug lg:text-7xl tracking-wide ml-30 text-[#B65F50]">
-            Good for You.  <br></br>
-            Even Better for <br></br>
-            Your Tastebuds.
-          </h2>
-          <Link href="/shop" className="font-semibold underline hover:opacity-90">
-          
-          <button className="bg-[#006039] text-white text-lg font-semibold py-2 px-4 rounded-md mx-auto mt-8">
-         
-            Start Shopping
-          </button>
-          </Link> 
+      <div className="relative w-full h-[500px] md:h-[600px] lg:h-[1000px] bg-[#FFF7F3] overflow-hidden">
+  {/* Background Image */}
+  <Image
+    src="/home1.jpeg"
+    alt="Hero Image"
+    fill
+    className="object-cover"
+    priority
+  />
 
-        </div>
-
-        {/* Image as Background */}
-        <div className="w-full h-auto">
-          <Image
-            src="/home1.jpeg"
-            alt="Task Image"
-            layout="fill"
-            objectFit="cover"
-            
-            className="h-auto  overflow-hidden"
-          />
-        </div>
-      </div>
+  {/* Overlay Text Section */}
+  <div className="relative z-10 flex flex-col items-start justify-center h-full px-6 md:px-12">
+    <h2 className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-snug tracking-wide text-[#B65F50] max-w-3xl">
+      Good for You. <br />
+      Even Better for <br />
+      Your Tastebuds.
+    </h2>
+    <Link href="/shop">
+      <button className="bg-[#808000] text-white text-lg font-semibold py-2 px-4 rounded-md mt-8 hover:opacity-90">
+        Start Shopping
+      </button>
+    </Link>
+  </div>
+</div>
 
       {/* Second Section: Image + Text in Row */}
       <div className="flex flex-col lg:flex-row items-center justify-evenly w-full py-12 px-6 bg-[#FFFBF1] gap-y-12 lg:gap-x-16 mt-30">
@@ -81,12 +74,12 @@ const NewTaskSection = () => {
           <h3 className="text-4xl font-semibold text-[#F48444] uppercase">
             what is Douluxme ?
           </h3>
-          <p className="text-[#9E2A16] text-2xl font-normal leading-relaxed">
+          <p className="text-[#9E2A16] lg:text-2xl text-lg  font-normal leading-relaxed">
             At Douluxme, we make simple moments feel special. We take the finest dates, fill them with crunchy nuts, dip them in rich chocolate, and craft each one with real care. It&apos;s a small bite of luxury you can enjoy anytime — for yourself or as a gift.
           </p>
           <Link href="/about" className="font-semibold underline hover:opacity-90">
           
-          <button className="bg-[#A6CC9A] text-white text-lg font-semibold py-2 px-4 rounded-md">
+          <button className="bg-[#808000] text-white text-lg font-semibold py-2 px-4 rounded-md">
             Learn More
           </button>
           </Link>
@@ -97,7 +90,7 @@ const NewTaskSection = () => {
       </div>
       <div className="relative w-screen overflow-visible mt-30">
         {/* Green Bar */}
-        <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-[#A6CC9A]"></div>
+        <div className="w-full h-[100px] md:h-[150px] lg:h-[200px] bg-[#808000]"></div>
 
         {/* Image Positioned Below and Centered */}
         <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-50 z-10 ">
@@ -110,13 +103,13 @@ const NewTaskSection = () => {
           />
         </div>
       </div>
-      <div className='mt-60 ml-30'>
-        <h2 className="text-4xl font-bold text-left mt-8 mb-12 text-[#F48444] uppercase">Discover By Categories</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 ">
+      <div className='mt-60 ml-5'>
+        <h2 className="text-4xl font-bold text-left mt-8 mb-12 text-[#F48444] uppercase ml-5 lg:ml-30">Discover By Categories</h2>
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:gap-50 px-4 gap-10 md:gap-20">
   {categories.map((category) => (
     <div
       key={category.id}
-      className="flex flex-col items-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 w-1/2 min-h-[300px]"
+      className="w-full sm:w-[40%] lg:w-[25%] max-w-sm flex flex-col items-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 min-h-[250px]"
     >
       <Image
         src={`https://douluxme-backend.onrender.com/uploads/${category.image}`}
@@ -125,17 +118,14 @@ const NewTaskSection = () => {
         width={500}
         height={500}
       />
-<div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3 py-4">
-  <p className="text-white text-lg font-bold uppercase">{category.name}</p>
-  <Link href={`/shop`}>
-  <button className="text-white text-md font-semibold bg-transparent border-none hover:bg-white hover:text-[#A9471F] hover:border-[#A9471F] hover:border-2 transition-all duration-300">
-  shop now
-</button>
-</Link> 
-
-</div>
-
-
+      <div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3 py-3">
+        <p className="text-white text-base font-bold uppercase">{category.name}</p>
+        <Link href={`/shop`}>
+          <button className="text-[#A03321] text-sm font-semibold bg-transparent border-none p-2 bg-white hover:text-[#808000] hover:border-[#A9471F] hover:border-2 transition-all duration-300">
+            shop now
+          </button>
+        </Link>
+      </div>
     </div>
   ))}
 </div>

@@ -61,7 +61,7 @@ const UsersPage = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const res = await axios.get<{ user: User }>('https://douluxme-backend.onrender.com/api/users/me', {
+        const res = await axios.get<{ user: User }>('http://localhost:5000/api/users/me', {
           withCredentials: true,
         });
   
@@ -77,7 +77,7 @@ const UsersPage = () => {
         setIsAdmin(false);
         toast.error("Access denied. Admins only.");
         setTimeout(() => {
-          router.push("/");
+          router.push("/login");
         }, 3000);
       }
     };
@@ -90,7 +90,7 @@ const UsersPage = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('https://douluxme-backend.onrender.com/api/users/get', {
+      const res = await axios.get('http://localhost:5000/api/users/get', {
         withCredentials: true,
       });
   
@@ -145,7 +145,7 @@ const UsersPage = () => {
     }
 
     try {
-      await axios.post('https://douluxme-backend.onrender.com/users/register', newUser, { withCredentials: true });
+      await axios.post('http://localhost:5000/api/users/register', newUser, { withCredentials: true });
       fetchUsers();
       resetForm();
       toast.success("User added successfully!");
@@ -158,7 +158,7 @@ const UsersPage = () => {
   // Handle deleting a user
   const handleDeleteUser = async (userId: string) => {
     try {
-      await axios.delete(`https://douluxme-backend.onrender.com/users/delete/${userId}`, { withCredentials: true });
+      await axios.delete(`http://localhost:5000/api/users/delete/${userId}`, { withCredentials: true });
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       setFilteredUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       toast.success("User deleted successfully!");
@@ -187,7 +187,7 @@ const UsersPage = () => {
     }
 
     try {
-      await axios.patch(`https://douluxme-backend.onrender.com/users/update/${editUserId}`, newUser, { withCredentials: true });
+      await axios.patch(`http://localhost:5000/api/users/update/${editUserId}`, newUser, { withCredentials: true });
       fetchUsers();
       resetForm();
       toast.success("User updated successfully!");
@@ -278,7 +278,7 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <div className="p-4 mx-auto">
       <ToastContainer />
       <h1 className="text-2xl font-bold text-center text-[#A03321]">Manage Users</h1>
       {isAdmin ? (
@@ -295,7 +295,51 @@ const UsersPage = () => {
               <option value="customer">Customer</option>
             </select>
           </div>
-
+       
+                <form onSubmit={handleAddUser} className="flex flex-col gap-3 p-4 rounded-md">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    value={newUser.name}
+                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                    required
+                    className="border p-2 rounded-md text-[#A03321]"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={newUser.email}
+                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                    required
+                    className="border p-2 rounded-md text-[#A03321]"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={newUser.password}
+                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                    required
+                   className="border p-2 rounded-md text-[#A03321]"
+                  />
+                  {/* Address Form */}
+                  <AddressForm
+                    address={newUser.address}
+                    updateAddress={(updatedAddress) =>
+                      setNewUser({ ...newUser, address: updatedAddress })
+                    }
+                  />
+                  <select
+                    value={newUser.role}
+                    onChange={(e) => setNewUser({ ...newUser, role: e.target.value as "admin" | "customer" })}
+                   className="border p-2 rounded-md text-[#A03321]"
+                  >
+                    <option value="customer">Customer</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <button type="submit" className="bg-[#A6CC9A] text-white p-2 rounded-md">
+                    Add User
+                  </button>
+                </form>
           {/* Users Table */}
           {loading ? (
             <div className="text-center text-[#A03321]">Loading users...</div>
@@ -303,7 +347,7 @@ const UsersPage = () => {
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-300 text-sm sm:text-base">
                 <thead>
-                  <tr className="bg-[#F48444] text-white">
+                  <tr className="bg-[#A03321] text-white">
                     <th className="border p-2 ">ID</th>
                     <th className="border p-2">Name</th>
                     <th className="border p-2 ">Email</th>
@@ -329,13 +373,14 @@ const UsersPage = () => {
             ? `${user.address.region}, ${user.address["address-direction"]}, ${user.address.building}, ${user.address.floor}, ${user.address.phone}`
             : "N/A"}
         </td>
-        <td className="border p-2">
-          <button onClick={() => handleDeleteUser(user.id!)} className="text-[#A03321]">
-            <FiTrash className="inline-block h-5 w-5 text-[#A03321] hover:scale-105 transition " />
-          </button>
-          <button onClick={() => handleEditUser(user)} className="text-[#A68F7B]">
+        <td className="p-2 border space-x-2">
+        <button onClick={() => handleEditUser(user)} className="text-white p-2 hover:text-blue-800">
             <FiEdit className="inline-block h-5 w-5 hover:scale-105 transition " />
           </button>
+          <button onClick={() => handleDeleteUser(user.id!)}className="text-red-500 bg-red p-2 hover:text-blue-800">
+            <FiTrash className="inline-block h-5 w-5 hover:scale-105 transition " />
+          </button>
+         
         </td>
       </tr>
     ))
@@ -350,6 +395,7 @@ const UsersPage = () => {
           <div className="my-6 bg-gray-200 p-4 rounded-md">
             {editUserId ? (
               <>
+              
                 <h2 className="text-xl font-bold mb-2 text-[#A03321]">Edit User</h2>
                 <form onSubmit={handleUpdateUser} className="flex flex-col gap-3">
                   <input
@@ -393,51 +439,7 @@ const UsersPage = () => {
               </>
             ) : (
               <>
-                <h2 className="text-xl font-bold mb-2 text-[#A03321]">Add User</h2>
-                <form onSubmit={handleAddUser} className="flex flex-col gap-3 bg-gray-200 p-4 rounded-md">
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    value={newUser.name}
-                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                    required
-                    className="border p-2 rounded-md text-[#A03321]"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={newUser.email}
-                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                    required
-                    className="border p-2 rounded-md text-[#A03321]"
-                  />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={newUser.password}
-                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                    required
-                    className="border p-2 rounded-md"
-                  />
-                  {/* Address Form */}
-                  <AddressForm
-                    address={newUser.address}
-                    updateAddress={(updatedAddress) =>
-                      setNewUser({ ...newUser, address: updatedAddress })
-                    }
-                  />
-                  <select
-                    value={newUser.role}
-                    onChange={(e) => setNewUser({ ...newUser, role: e.target.value as "admin" | "customer" })}
-                    className="border p-2 rounded-md"
-                  >
-                    <option value="customer">Customer</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                  <button type="submit" className="bg-[#A6CC9A] text-white p-2 rounded-md">
-                    Add User
-                  </button>
-                </form>
+              
               </>
             )}
           </div>

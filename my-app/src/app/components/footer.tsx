@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="bg-[#892D20] text-white py-6 px-6 text-sm mt-10 text-center">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center mt-10 mb-10">
           <div>
-            <p className="font-bold mb-2">Douluxme</p>
+            <p className="font-bold mb-2 text-4xl">Douluxme</p>
           </div>
           <div>
             <p className="font-bold mb-2">NAVIGATION</p>
@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <p className="text-center text-green-600 text-sm mt-4 mb-4">
+      <p className="text-center text-[#808000] text-sm mt-4 mb-4">
       &copy; {new Date().getFullYear()} Douluxme. All rights reserved.
       </p>
     </>

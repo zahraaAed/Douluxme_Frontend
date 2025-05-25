@@ -1,130 +1,130 @@
-"use client";
+"use client"
 
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { AxiosError } from 'axios';
+import { createContext, useContext, useState, type ReactNode, useEffect } from "react"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
+import { AxiosError } from "axios"
 
 interface User {
-  id: string;
-  email: string;
-  role: string;
-  name?: string;
+  id: string
+  email: string
+  role: string
+  name?: string
   address?: {
-    phone: string;
-    region: string;
-    address_direction: string;
-    building: string;
-    floor: string;
-  } | null;
+    phone: string
+    region: string
+    address_direction: string
+    building: string
+    floor: string
+  } | null
 }
 
 interface UserContextType {
-  user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-  getMe: () => Promise<void>;  // Add getMe method to fetch user data
+  user: User | null
+  isLoading: boolean
+  login: (email: string, password: string) => Promise<void>
+  logout: () => void
+  getMe: () => Promise<void>
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const router = useRouter()
 
   // Function to fetch user data
   const getMe = async () => {
+    setIsLoading(true)
     try {
-      const response = await axios.get("https://douluxme-backend.onrender.com/api/users/me", {
-        withCredentials: true, // Important to send cookies (token)
-      });
-      setUser(response.data.user);
+      const response = await axios.get("http://localhost:5000/api/users/me", {
+        withCredentials: true,
+      })
+      setUser(response.data.user)
     } catch (error) {
-      console.error("Failed to fetch user data", error);
+      console.error("Failed to fetch user data", error)
+      setUser(null)
+    } finally {
+      setIsLoading(false)
     }
-  };
-  
+  }
 
   const login = async (email: string, password: string) => {
+    setIsLoading(true)
     try {
       const response = await axios.post(
-        "https://douluxme-backend.onrender.com/api/users/login",
+        "http://localhost:5000/api/users/login",
         { email, password },
-        { withCredentials: true }
-      );
-      const { token, user } = response.data;
-      console.log("Login response:", response.data);
-      console.log("User data:", user);
-      console.log("Token:", token);
+        { withCredentials: true },
+      )
+      const { token, user } = response.data
+      console.log("Login response:", response.data)
+      console.log("User data:", user)
+      console.log("Token:", token)
 
       // Save token to cookies and session storage
-      document.cookie = `token=${token}; path=/;`;
-      sessionStorage.setItem("token", token);
-      sessionStorage.setItem("role", user.role);
+      document.cookie = `token=${token}; path=/;`
+      sessionStorage.setItem("token", token)
+      sessionStorage.setItem("role", user.role)
 
-      setUser(user); // Set user from login response
-      toast.success("You have successfully logged in!");
+      setUser(user) // Set user from login response
+      toast.success("You have successfully logged in!")
 
-      setTimeout(() => {
-        if (user.role === "admin") {
-          router.push("/admin/user");
-        } else {
-          const lastVisitedPage = sessionStorage.getItem("lastVisitedPage") || "/";
-          router.push(lastVisitedPage);
-        }
-      }, 2000);
-    }
-    catch (err) {
-      // First, ensure that the error is an AxiosError
+      // REMOVED THE SETTIMEOUT - Let the Login component handle redirects
+      // The Login component will handle the redirect based on the updated user state
+    } catch (err) {
       if (err instanceof AxiosError) {
-        const message =
-          err.response?.data?.message ||  // Check if the response has a message
-          err.message ||                  // Fallback to the error message from AxiosError
-          'Unknown error';                // Default message if no message is found
-    
-        console.error("Add Cart Error:", err);
-    
-        // Show the error message in the toast
-        toast.error(message);
+        const message = err.response?.data?.message || err.message || "Unknown error"
+
+        console.error("Login Error:", err)
+        toast.error(message)
       } else {
-        // If the error is not an instance of AxiosError, handle it as a generic error
-        console.error("Non-Axios error:", err);
-        toast.error('An unknown error occurred');
+        console.error("Non-Axios error:", err)
+        toast.error("An unknown error occurred")
       }
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   const logout = async () => {
+    setIsLoading(true)
     try {
-      await axios.post("https://douluxme-backend.onrender.com/api/users/logout", {}, {
-        withCredentials: true, // important to send cookies
-      });
+      await axios.post(
+        "http://localhost:5000/api/users/logout",
+        {},
+        {
+          withCredentials: true,
+        },
+      )
 
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      setUser(null);
-      router.push("/login");
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+      sessionStorage.removeItem("token")
+      sessionStorage.removeItem("role")
+      sessionStorage.removeItem("redirectUrl") // Also clear any saved redirect URL
+      setUser(null)
+      router.push("/login")
     } catch (error) {
-      console.error("Logout failed", error);
+      console.error("Logout failed", error)
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   // Fetch user data on initial load
   useEffect(() => {
-    getMe();
-  }, []);
+    getMe()
+  }, [])
 
-  return (
-    <UserContext.Provider value={{ user, login, logout, getMe }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
+  return <UserContext.Provider value={{ user, isLoading, login, logout, getMe }}>{children}</UserContext.Provider>
+}
 
 export const useUser = () => {
-  const context = useContext(UserContext);
+  const context = useContext(UserContext)
   if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
+    throw new Error("useUser must be used within a UserProvider")
   }
-  return context;
-};
+  return context
+}

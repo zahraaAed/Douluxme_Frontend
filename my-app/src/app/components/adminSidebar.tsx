@@ -12,21 +12,24 @@ const Sidebar = () => {
   const {logout } = useUser(); // Correct usage here
 
   return (
-    <div className="flex">
+    <div className="flex ">
       {/* Sidebar */}
       <div
-        className={`bg-[#A68F7B] text-white fixed h-screen w-64 z-10 p-6 
+        className={`bg-[#892D20] text-white fixed h-screen w-64 z-10 p-6 
                     transition-all duration-300 ease-in-out
                     ${isOpen ? "translate-x-0" : "-translate-x-64"} 
                     md:translate-x-0`}
       >
         {/* Logo Section */}
         <div className="flex flex-col items-center">
-          <h1>Douluxme</h1>
-          <h2 className="text-xl font-bold mt-2">Mishatotebag</h2>
+          
+          <h2 className="text-xl font-bold mt-2 text-white">Douluxme</h2>
         </div>
 
         {/* Sidebar Links */}
+        <div className="flex flex-col justify-between h-full">
+
+       
         <div className="flex flex-col mt-10 gap-6 text-lg">
           <Link href="/" className="flex items-center gap-3 hover:text-gray-300 transition">
             <FaHome className="text-lg" /> Home
@@ -37,16 +40,32 @@ const Sidebar = () => {
           <Link href="/admin/users" className="flex items-center gap-3 hover:text-gray-300 transition">
             <FaUsers className="text-lg" /> Users
           </Link>
+          <Link href="/admin/feedbacks" className="flex items-center gap-3 hover:text-gray-300 transition">
+            <FaClipboardList className="text-lg" /> Feedbacks
+          </Link>
           <Link href="/admin/products" className="flex items-center gap-3 hover:text-gray-300 transition">
             <FaShoppingCart className="text-lg" /> Products
+          </Link>
+          <Link href="/admin/chocolates" className="flex items-center gap-3 hover:text-gray-300 transition">
+            <FaShoppingCart className="text-lg" /> Chocolates
+          </Link>
+          <Link href="/admin/nuts" className="flex items-center gap-3 hover:text-gray-300 transition">
+            <FaShoppingCart className="text-lg" /> Nuts
+          </Link>
+          <Link href="/admin/categories" className="flex items-center gap-3 hover:text-gray-300 transition">
+            <FaShoppingCart className="text-lg" /> Categories
           </Link>
           <Link href="/admin/orders" className="flex items-center gap-3 hover:text-gray-300 transition">
             <FaClipboardList className="text-lg" /> Orders
           </Link>
-          <button onClick={logout} className="flex items-center gap-3 hover:text-gray-300 transition text-left">
+          </div>
+          <div>
+          <button onClick={logout} className="flex items-center gap-3 hover:text-gray-300 transition text-left p-2 mb-30">
             <FiLogOut className="text-lg" /> Logout
           </button>
-        </div>
+          </div>
+       
+      </div>
       </div>
 
       {/* Mobile Menu Button */}
