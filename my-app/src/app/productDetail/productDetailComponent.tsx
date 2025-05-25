@@ -57,7 +57,7 @@ const ProductDetail = () => {
   const { addCartItem } = useCart()
 
   const [product, setProduct] = useState<Product | null>(null)
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
+  const [, setRelatedProducts] = useState<Product[]>([])
   const [feedback, setFeedback] = useState<Feedback[] | null>(null)
   const [newComment, setNewComment] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(true)
@@ -109,7 +109,7 @@ const ProductDetail = () => {
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/feedbacks/create",
         {
           comment: newComment,

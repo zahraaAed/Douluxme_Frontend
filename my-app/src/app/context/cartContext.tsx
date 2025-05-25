@@ -16,7 +16,7 @@ export interface CartItem {
   }
   
 
-  interface RawCartItem {
+/*   interface RawCartItem {
     id: string;
     productId: number;
     quantity: number;
@@ -30,7 +30,7 @@ export interface CartItem {
       email: string;
       // Add more fields if needed
     };
-  }
+  } */
   interface CartContextType {
     carts: CartItem[];
     loading: boolean;
@@ -87,7 +87,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         try {
             const response = await axios.post('http://localhost:5000/api/carts/create', item, { withCredentials: true });
             await fetchCartData(); 
-           /*  setCarts((prevCarts) => [...prevCarts, response.data]); */
+            setCarts((prevCarts) => [...prevCarts, response.data]);
         } catch (err) {
           // First, ensure that the error is an AxiosError
           if (err instanceof AxiosError) {

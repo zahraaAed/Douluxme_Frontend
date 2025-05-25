@@ -8,6 +8,7 @@ import { useCart } from "../context/cartContext"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import Header from "../components/header"
+import { AxiosError } from "axios"
 
 interface Product {
   id: number
@@ -74,10 +75,24 @@ const OrderPage: React.FC = () => {
       await clearCart()
 
       router.push("/orderSuccess")
-    } catch (error: any) {
-      console.error(error)
-      const message = error.response?.data?.message || error.message || "Failed to place order"
-      toast.error(message)
+    } catch (err) {
+                  // First, ensure that the error is an AxiosError
+                  if (err instanceof AxiosError) {
+                    const message =
+                      err.response?.data?.message ||  // Check if the response has a message
+                      err.message ||                  // Fallback to the error message from AxiosError
+                      'Unknown error';                // Default message if no message is found
+                
+                    console.error("category Error:", err);
+                
+                    // Show the error message in the toast
+                    toast.error(message);
+                  } else {
+                    // If the error is not an instance of AxiosError, handle it as a generic error
+                    console.error("Non-Axios error:", err);
+                    toast.error('An unknown error occurred');
+                  }
+                
     } finally {
       setIsSubmitting(false)
     }

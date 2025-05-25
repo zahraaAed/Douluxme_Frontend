@@ -8,7 +8,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const Header = () => {
   const { user, logout } = useUser();
-  const { cartCount, toggleCart, isCartOpen } = useCart();
+  const { cartCount, toggleCart} = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);

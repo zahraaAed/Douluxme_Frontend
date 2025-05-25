@@ -17,44 +17,48 @@ interface Category {
 interface Product {
   id: string
   name: string
-  boxSize: string
+  boxSize: string[]
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => {
   const [categories, setCategories] = useState<Category[]>([])
   const [nuts, setNuts] = useState<string[]>([])
-  const [products, setProducts] = useState<Product[]>([])
+  const [, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
 
   const [boxSizes, setBoxSizes] = useState<string[]>([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [nutsRes, categoriesRes, productsRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/nuts/get"),
-          axios.get("http://localhost:5000/api/categories/get"),
-          axios.get("http://localhost:5000/api/products/get")
-        ])
-
-        setNuts(nutsRes.data.map((nut: { variety: string }) => nut.variety))
-        setCategories(categoriesRes.data)
-        setProducts(productsRes.data)
-
-        const sizes = [
-          ...new Set(productsRes.data.map((product: Product) => product.boxSize))
-        ].filter(Boolean)
-        setBoxSizes(boxSizes)
-      } catch (error) {
-        console.error("Failed to fetch sidebar data", error)
-      } finally {
-        setLoading(false)
-      }
+  const fetchData = async () => {
+    try {
+      const [nutsRes, categoriesRes, productsRes] = await Promise.all([
+        axios.get("http://localhost:5000/api/nuts/get"),
+        axios.get("http://localhost:5000/api/categories/get"),
+        axios.get("http://localhost:5000/api/products/get")
+      ]);
+  
+      setNuts(nutsRes.data.map((nut: { variety: string }) => nut.variety));
+      setCategories(categoriesRes.data);
+      setProducts(productsRes.data);
+  
+      // <-- SAFETY CHECK: if productsRes.data is missing, default to empty array
+      const products = productsRes.data || [];
+  
+      const sizes = [
+        ...new Set(products.flatMap((product: Product) => product.boxSize as string[]))
+      ].filter(Boolean) as string[];
+  
+      setBoxSizes(sizes);
+    } catch (error) {
+      console.error("Failed to fetch sidebar data", error);
+    } finally {
+      setLoading(false);
     }
-
+  };
+  useEffect(() => {
     fetchData()
   }, [])
+  
 
   const handleFilterClick = (category: string, value: string) => {
     onFilterChange({ category, value })
