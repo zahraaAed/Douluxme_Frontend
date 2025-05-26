@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import { FiTrash, FiEdit } from "react-icons/fi";
 
 interface Feedback {
   id: number;
@@ -158,13 +159,13 @@ const Feedbacks = () => {
             onClick={() => handleEditClick(feedback)}
             className="bg-yellow-500 text-white px-2 py-1 rounded"
           >
-            Edit
+                       <FiEdit className="inline-block h-5 w-5 hover:scale-105 transition " />
           </button>
           <button
             onClick={() => handleDelete(feedback.id)}
             className="bg-red-600 text-white px-2 py-1 rounded"
           >
-            Delete
+            <FiTrash className="inline-block h-5 w-5 hover:scale-105 transition " />
           </button>
         </td>
       </tr>

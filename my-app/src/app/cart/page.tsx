@@ -111,7 +111,7 @@ const CartList: React.FC = () => {
           <h2 className="text-3xl font-bold text-[#B65F50] mb-4 md:mb-0">Your Cart</h2>
           <button
             onClick={() => router.push("/shop")}
-            className="px-6 py-2 bg-[#808000] text-white font-semibold rounded-lg hover:bg-green-600"
+            className="px-6 py-2 bg-[#808000] text-white font-semibold rounded-lg hover:opacity-90"
           >
             Continue Shopping
           </button>
@@ -216,7 +216,7 @@ const CartList: React.FC = () => {
 
             <button
               onClick={() => router.push("/checkout")}
-              className="w-full mt-6 py-3 bg-[#808000] text-white font-semibold rounded-lg hover:bg-green-600"
+              className="w-full mt-6 py-3 bg-[#808000] text-white font-semibold rounded-lg hover:opacity-90"
             >
               Checkout
             </button>

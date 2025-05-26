@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { FiTrash, FiEdit } from 'react-icons/fi';
 
 interface Category {
   id: number;
@@ -232,7 +232,7 @@ const Categories = () => {
               required
               className="border p-2 rounded-md w-full text-[#A03321]"
             />
-            <button type="submit" className="bg-[#A6CC9A] text-white p-2 rounded-md">
+            <button type="submit" className="bg-[#A6CC9A] text-white p-2 rounded-md hover:opacity-90">
               Add Category
             </button>
           </form>
@@ -272,13 +272,13 @@ const Categories = () => {
                           onClick={() => handleEditClick(category)}
                           className="bg-yellow-500 text-white px-2 py-1 rounded"
                         >
-                          Edit
+                           <FiEdit className="inline-block h-5 w-5 hover:scale-105 transition " />
                         </button>
                         <button
                           onClick={() => handleDelete(category.id)}
                           className="bg-red-600 text-white px-2 py-1 rounded"
                         >
-                          Delete
+                            <FiTrash className="inline-block h-5 w-5 hover:scale-105 transition " />
                         </button>
                       </td>
                     </tr>

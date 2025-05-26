@@ -135,7 +135,7 @@ export default function ContactPage() {
           <div className="text-right">
             <button
               type="submit"
-              className="bg-[#808000] text-white font-semibold px-6 py-2 rounded-md hover:bg-[#8DB77A] transition"
+              className="bg-[#808000] text-white font-semibold px-6 py-2 rounded-md hover:opacity-90 transition"
             >
               Send
             </button>

@@ -79,7 +79,7 @@ const NewTaskSection = () => {
           </p>
           <Link href="/about" className="font-semibold underline hover:opacity-90">
           
-          <button className="bg-[#808000] text-white text-lg font-semibold py-2 px-4 rounded-md">
+          <button className="bg-[#808000] text-white text-lg font-semibold py-2 px-4 rounded-md hover:opacity-90">
             Learn More
           </button>
           </Link>
@@ -121,7 +121,7 @@ const NewTaskSection = () => {
       <div className="bg-[#A03321] w-full flex flex-1 justify-between items-center px-3 py-3">
         <p className="text-white text-base font-bold uppercase">{category.name}</p>
         <Link href={`/shop`}>
-          <button className="text-[#A03321] text-sm font-semibold bg-transparent border-none p-2 bg-white hover:text-[#808000] hover:border-[#A9471F] hover:border-2 transition-all duration-300">
+          <button className="text-[#A03321] text-sm font-semibold bg-transparent border-none p-2 bg-white hover:opacity-90 transition-all duration-300">
             shop now
           </button>
         </Link>

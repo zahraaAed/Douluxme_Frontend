@@ -167,7 +167,7 @@ useEffect(() => {
           <Link href="/order">
           <button
             onClick={() => console.log("Proceeding to payment...")}
-            className="w-full py-2 bg-[#808000] text-white rounded-lg mt-4"
+            className="w-full py-2 bg-[#808000] text-white rounded-lg mt-4 hover:opacity-90"
           >
            Place Order
           </button>
