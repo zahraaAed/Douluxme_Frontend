@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import type React from "react"
 import { useEffect, useState } from "react"
@@ -26,7 +26,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
   const [, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
-
   const [boxSizes, setBoxSizes] = useState<string[]>([])
 
   const fetchData = async () => {
@@ -35,30 +34,34 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
         axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
         axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
         axios.get("https://douluxme-backend.onrender.com/api/products/get")
-      ]);
-  
-      setNuts(nutsRes.data.map((nut: { variety: string }) => nut.variety));
-      setCategories(categoriesRes.data);
-      setProducts(productsRes.data);
-  
-      // <-- SAFETY CHECK: if productsRes.data is missing, default to empty array
-      const products = productsRes.data || [];
-  
+      ])
+
+      setNuts(nutsRes.data.map((nut: { variety: string }) => nut.variety))
+      setProducts(productsRes.data)
+
+      const filteredCategories = categoriesRes.data.filter((cat: Category) => {
+        const name = cat.name.toLowerCase()
+        return name.includes("bar") || name.includes("box") || name.includes("gift")
+      })
+
+      setCategories(filteredCategories)
+
+      const products = productsRes.data || []
       const sizes = [
-        ...new Set(products.flatMap((product: Product) => product.boxSize as string[]))
-      ].filter(Boolean) as string[];
-  
-      setBoxSizes(sizes);
+        ...new Set(products.flatMap((product: Product) => product.boxSize))
+      ].filter(Boolean) as string[]
+
+      setBoxSizes(sizes)
     } catch (error) {
-      console.error("Failed to fetch sidebar data", error);
+      console.error("Failed to fetch sidebar data", error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
-  
 
   const handleFilterClick = (category: string, value: string) => {
     onFilterChange({ category, value })
@@ -86,9 +89,31 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
             <div>Loading...</div>
           ) : (
             categories.map((category) => {
+              const nameLower = category.name.toLowerCase()
               const options = getOptionsForCategory(category.name)
-              if (options.length === 0) return null
 
+              // Render "gift/gifts" as a flat clickable item (no dropdown)
+              if (nameLower.includes("gift")) {
+                return (
+                  <div
+                    key={category.id}
+                    className={`text-lg cursor-pointer hover:text-[#FF7F00] flex items-center gap-1 ${
+                      selectedFilter.category === category.name
+                        ? "text-[#FF7F00] font-semibold"
+                        : ""
+                    }`}
+                    onClick={() => handleFilterClick(category.name, category.name)}
+                  >
+                  <span className="text-[#FFA76B]" style={{ fontSize: "12px" }}>
+  ▶
+</span>
+                    {category.name.toUpperCase()}
+                  </div>
+                )
+              }
+              
+
+              // Render dropdown for other categories like bar/box
               return (
                 <details
                   key={category.id}

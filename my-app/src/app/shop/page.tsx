@@ -22,7 +22,7 @@ interface Product {
   category: {
     name: string
   }
-  boxSize: string // Add this line for box size (assuming this exists)
+  boxSize: string
 }
 
 export default function ProductPage() {
@@ -56,25 +56,28 @@ export default function ProductPage() {
     // Filter products based on selected category and value
     let filtered = [...products]
 
-    switch (filter.category) {
-      case "Bars":
-        filtered = products.filter((product) => 
-          product.nut.variety === filter.value && product.name.toLowerCase().includes("bar")
-        )
-        break
-      case "Boxes":
-        filtered = products.filter((product) =>
-          product.boxSize === filter.value && product.name.toLowerCase().includes("box")
-        )
-        break
-      case "Gifts":
-        filtered = products.filter((product) => product.name.toLowerCase().includes(filter.value.toLowerCase()))
-        break
-      case "Categories":
-        filtered = products.filter((product) => product.category.name.toLowerCase() === filter.value.toLowerCase())
-        break
-      default:
-        filtered = products
+    // Check if the category name contains "gift" (case insensitive)
+    if (filter.category.toLowerCase().includes("gift")) {
+      // Filter products that have "gift" or "gifts" in their name
+      filtered = products.filter((product) => product.name.toLowerCase().includes("gift"))
+    } else {
+      switch (filter.category) {
+        case "Bars":
+          filtered = products.filter(
+            (product) => product.nut.variety === filter.value && product.name.toLowerCase().includes("bar"),
+          )
+          break
+        case "Boxes":
+          filtered = products.filter(
+            (product) => product.boxSize === filter.value && product.name.toLowerCase().includes("box"),
+          )
+          break
+        case "Categories":
+          filtered = products.filter((product) => product.category.name.toLowerCase() === filter.value.toLowerCase())
+          break
+        default:
+          filtered = products
+      }
     }
 
     setFilteredProducts(filtered)
@@ -92,29 +95,20 @@ export default function ProductPage() {
 
       {/* Hero Section */}
       <div className="relative w-full min-h-[70vh] lg:min-h-screen overflow-hidden">
-  {/* Background Image */}
-  <div className="absolute inset-0 -z-10">
-    <Image
-      src="/Shop.png"
-      alt="Order Hero"
-      fill
-      sizes="100vw"
-      className="object-cover object-center"
-      priority
-    />
-  </div>
+        {/* Background Image */}
+        <div className="absolute inset-0 -z-10">
+          <Image src="/Shop.png" alt="Order Hero" fill sizes="100vw" className="object-cover object-center" priority />
+        </div>
 
-  {/* Overlay Text Content */}
-  <div className="relative z-10 flex items-center justify-left min-h-[70vh] lg:min-h-screen px-6 sm:px-10 md:px-20 text-[#B65F50]">
-    <div className="text-left max-w-4xl">
-    <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-snug">
-  WHAT WOULD YOU <br /> LIKE TO ORDER
-</h2>
-
-    </div>
-  </div>
-</div>
-
+        {/* Overlay Text Content */}
+        <div className="relative z-10 flex items-center justify-left min-h-[70vh] lg:min-h-screen px-6 sm:px-10 md:px-20 text-[#B65F50]">
+          <div className="text-left max-w-4xl">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-snug">
+              WHAT WOULD YOU <br /> LIKE TO ORDER
+            </h2>
+          </div>
+        </div>
+      </div>
 
       {/* Content Section */}
       <div className="flex flex-col md:flex-row px-6 md:px-12 mt-10 ml-5 lg:ml-30">
@@ -133,7 +127,8 @@ export default function ProductPage() {
           {selectedFilter.category && (
             <div className="mb-4 flex items-center">
               <span className="text-sm text-gray-600 mr-2">
-                Filtering by: {selectedFilter.category} - {selectedFilter.value}
+                Filtering by: {selectedFilter.category}
+                {selectedFilter.category.toLowerCase().includes("gift") ? "" : ` - ${selectedFilter.value}`}
               </span>
               <button onClick={clearFilters} className="text-sm text-[#FFA76B] hover:underline">
                 Clear filter
@@ -147,28 +142,28 @@ export default function ProductPage() {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div key={product.id} className="bg-white border rounded-xl p-4 shadow-sm text-center">
-                  <Image
-  src={
-    product.image.startsWith("http")
-      ? product.image
-      : `https://douluxme-backend.onrender.com/uploads/${product.image}`
-  }
-  alt={product.name}
-  width={150}
-  height={150}
-  className="mx-auto mb-2 object-contain h-[150px]"
-/>
+                    <Image
+                      src={
+                        product.image.startsWith("http")
+                          ? product.image
+                          : `https://douluxme-backend.onrender.com/uploads/${product.image}`
+                      }
+                      alt={product.name}
+                      width={150}
+                      height={150}
+                      className="mx-auto mb-2 object-contain h-[150px]"
+                    />
 
                     <h2 className="font-semibold text-sm mb-1">{product.name}</h2>
                     <p className="text-xs text-gray-500 mb-1 capitalize">
                       {product.nut.variety} + {product.chocolate.type} chocolate
                     </p>
                     <p className="text-sm text-gray-600 mb-2">${product.price}</p>
-                 
+
                     <Link href={`/productDetail?productId=${product.id}`}>
-                    <button className="w-full bg-[#808000] text-white hover:bg-[#c6e09a] py-1 rounded">
-                   View Details
-                    </button>
+                      <button className="w-full bg-[#808000] text-white hover:bg-[#c6e09a] py-1 rounded">
+                        View Details
+                      </button>
                     </Link>
                   </div>
                 ))

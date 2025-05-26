@@ -101,7 +101,7 @@ const OrderPage: React.FC = () => {
   return (
     <div>
       <Header />
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 mt-4">
         
       <h1 className="text-3xl font-bold mb-6 text-center">Place Your Order</h1>
 
@@ -116,20 +116,23 @@ const OrderPage: React.FC = () => {
           {extendedCarts.map((item) => (
             <li key={item.id} className="flex justify-between py-3">
               <div>
-                <p className="font-medium">{item.product ? item.product.name : "Item info missing"}</p>
+                <p className="font-medium text-2xl text-[#A9471F] mb-2">{item.product ? item.product.name : "Item info missing"}</p>
                 <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
               </div>
-              <div className="font-semibold">
+              <div className="font-semibold text-lg text-[#A9471F]">
                 ${item.product ? (item.quantity * item.product.price).toFixed(2) : "0.00"}
               </div>
             </li>
           ))}
         </ul>
-        <div className="mt-4 flex justify-end text-lg font-semibold">Subtotal: ${subtotalPrice.toFixed(2)}</div>
+        <div className="mt-4 flex justify-end text-lg font-semibold text-[#A9471F]">
+  Total: ${(subtotalPrice + 5).toFixed(2)}
+</div>
+
       </section>
 
       <section className="bg-white text-gray-500 shadow-md rounded p-6 mb-8">
-        <label htmlFor="paymentMethod" className="block mb-2 font-semibold">
+        <label htmlFor="paymentMethod" className="block mb-2 font-semibold text-[#db711a]">
           Select Payment Method:
         </label>
         <select

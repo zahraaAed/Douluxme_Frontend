@@ -200,16 +200,16 @@ const CartList: React.FC = () => {
           {/* Summary Section */}
           <div className="lg:w-1/3 w-full h-fit sticky top-24 bg-white rounded-lg shadow p-6">
             <h3 className="text-2xl font-bold mb-4 text-[#B65F50]">Summary</h3>
-            <div className="flex justify-between text-lg font-medium mb-2">
+            <div className="flex justify-between text-lg font-medium mb-2 text-gray-700">
               <span>Subtotal</span>
               <span>${formatPrice(cartTotal)}</span>
             </div>
-            <div className="flex justify-between text-lg font-medium mb-4">
+            <div className="flex justify-between text-lg font-medium mb-4 text-gray-700">
               <span>Shipping</span>
               <span>$5.00</span>
             </div>
             <hr className="my-2" />
-            <div className="flex justify-between text-xl font-bold">
+            <div className="flex justify-between text-xl font-bold text-[#B65F50]">
               <span>Total</span>
               <span>${formatPrice(cartTotal + 5)}</span>
             </div>
