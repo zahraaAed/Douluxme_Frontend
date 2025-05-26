@@ -25,7 +25,7 @@ const NutsPage = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/users/me", {
+        const res = await axios.get("https://douluxme-backend.onrender.com/api/users/me", {
           withCredentials: true,
         });
         if (res.data.user.role === "admin") {
@@ -48,7 +48,7 @@ const NutsPage = () => {
 
   const fetchNuts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/nuts/get", {
+      const res = await axios.get("https://douluxme-backend.onrender.com/api/nuts/get", {
         withCredentials: true,
       });
       setNuts(res.data);
@@ -62,7 +62,7 @@ const NutsPage = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5000/api/nuts/create",
+        "https://douluxme-backend.onrender.com/api/nuts/create",
         { variety, price },
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ const NutsPage = () => {
 
     try {
      await axios.patch(
-        `http://localhost:5000/api/nuts/update/${currentNut.id}`,
+        `https://douluxme-backend.onrender.com/api/nuts/update/${currentNut.id}`,
         { variety, price },
         { withCredentials: true }
       );
@@ -110,7 +110,7 @@ const NutsPage = () => {
     if (!confirm("Are you sure you want to delete this nut?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/nuts/delete/${id}`, {
+      await axios.delete(`https://douluxme-backend.onrender.com/api/nuts/delete/${id}`, {
         withCredentials: true,
       });
       setNuts((prev) => prev.filter((n) => n.id !== id));

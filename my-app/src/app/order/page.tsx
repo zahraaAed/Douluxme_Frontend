@@ -67,7 +67,7 @@ const OrderPage: React.FC = () => {
         paymentMethod,
       }
 
-      await axios.post("http://localhost:5000/api/orders/create", payload, { withCredentials: true })
+      await axios.post("https://douluxme-backend.onrender.com/api/orders/create", payload, { withCredentials: true })
 
       toast.success("Order placed successfully!")
 

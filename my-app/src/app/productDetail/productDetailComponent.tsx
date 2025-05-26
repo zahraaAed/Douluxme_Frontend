@@ -66,11 +66,11 @@ const ProductDetail = () => {
 
   const fetchProduct = useCallback(async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/products/get/${id}`)
+      const res = await axios.get(`https://douluxme-backend.onrender.com/api/products/get/${id}`)
       setProduct(res.data)
 
       const relatedRes = await axios.get(
-        `http://localhost:5000/api/products/get/products/category/${res.data.categoryId}`,
+        `https://douluxme-backend.onrender.com/api/products/get/products/category/${res.data.categoryId}`,
       )
       setRelatedProducts(relatedRes.data)
     } catch (err) {
@@ -82,7 +82,7 @@ const ProductDetail = () => {
 
   /*  const fetchFeedback = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/feedbacks/product/${id}`)
+      const res = await axios.get(`https://douluxme-backend.onrender.com/api/feedbacks/product/${id}`)
       setFeedback(res.data)
     } catch (err) {
       console.error("Error fetching feedback:", err)
@@ -90,7 +90,7 @@ const ProductDetail = () => {
   } */
   const fetchFeedback = useCallback(async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/feedbacks/product/${id}`, { withCredentials: true })
+      const res = await axios.get(`https://douluxme-backend.onrender.com/api/feedbacks/product/${id}`, { withCredentials: true })
       setFeedback(res.data)
     } catch (err) {
       console.error("Error fetching feedback:", err)
@@ -110,7 +110,7 @@ const ProductDetail = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/feedbacks/create",
+        "https://douluxme-backend.onrender.com/api/feedbacks/create",
         {
           comment: newComment,
           ProductId: Number(id),
@@ -242,7 +242,7 @@ const ProductDetail = () => {
         <div className="flex-col md:flex-row lg:flex gap-8 p-8 mx-30 justify-center">
           <div className="flex-1">
             <Image
-              src={`http://localhost:5000/uploads/${product.image}`}
+              src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
               alt={product.name}
               className="w-3/4 h-auto object-cover"
               width={500}
@@ -330,7 +330,7 @@ const ProductDetail = () => {
               {relatedProducts.map((item) => (
                 <div key={item.id} className="product-card">
                   <Image
-                    src={`http://localhost:5000/uploads/${item.image}`}
+                    src={`https://douluxme-backend.onrender.com/uploads/${item.image}`}
                     alt={item.name}
                     className="w-full h-auto object-cover"
                     width={150}

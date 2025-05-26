@@ -74,9 +74,9 @@ const ProductAdmin = () => {
     try {
       // Fetch nuts, chocolates, and categories
       const [nutsRes, chocolatesRes, categoriesRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/nuts/get"),
-        axios.get("http://localhost:5000/api/chocolates/get"),
-        axios.get("http://localhost:5000/api/categories/get"),
+        axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
+        axios.get("https://douluxme-backend.onrender.com/api/chocolates/get"),
+        axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
       ])
 
       setNuts(nutsRes.data)
@@ -91,7 +91,7 @@ const ProductAdmin = () => {
   const fetchProducts = async () => {
     setLoading(true)
     try {
-      const res = await axios.get("http://localhost:5000/api/products/get")
+      const res = await axios.get("https://douluxme-backend.onrender.com/api/products/get")
       setProducts(res.data)
     } catch (err) {
       console.error("Error fetching products:", err)
@@ -164,13 +164,13 @@ const ProductAdmin = () => {
 
     try {
       if (editProduct) {
-        await axios.patch(`http://localhost:5000/api/products/update/${editProduct.id}`, formDataToSend, {
+        await axios.patch(`https://douluxme-backend.onrender.com/api/products/update/${editProduct.id}`, formDataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         })
         toast.success("Product updated successfully!")
       } else {
-        await axios.post("http://localhost:5000/api/products/create", formDataToSend, {
+        await axios.post("https://douluxme-backend.onrender.com/api/products/create", formDataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         })
@@ -194,7 +194,7 @@ const ProductAdmin = () => {
     if (!productToDelete) return
 
     try {
-      await axios.delete(`http://localhost:5000/api/products/delete/${productToDelete}`, {
+      await axios.delete(`https://douluxme-backend.onrender.com/api/products/delete/${productToDelete}`, {
         withCredentials: true,
       })
       toast.success("Product deleted!")
@@ -238,7 +238,7 @@ const ProductAdmin = () => {
               <tr key={product.id} className="text-center border text-[#A03321]">
                 <td className="p-2 border">
                   <Image
-                    src={`http://localhost:5000/api/uploads/${product.image}`}
+                    src={`https://douluxme-backend.onrender.com/api/uploads/${product.image}`}
                     alt={product.name}
                     width={48}
                     height={48}

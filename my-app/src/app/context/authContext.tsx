@@ -39,7 +39,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const getMe = async () => {
     setIsLoading(true)
     try {
-      const response = await axios.get("http://localhost:5000/api/users/me", {
+      const response = await axios.get("https://douluxme-backend.onrender.com/api/users/me", {
         withCredentials: true,
       })
       setUser(response.data.user)
@@ -55,7 +55,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true)
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/login",
+        "https://douluxme-backend.onrender.com/api/users/login",
         { email, password },
         { withCredentials: true },
       )
@@ -93,7 +93,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true)
     try {
       await axios.post(
-        "http://localhost:5000/api/users/logout",
+        "https://douluxme-backend.onrender.com/api/users/logout",
         {},
         {
           withCredentials: true,

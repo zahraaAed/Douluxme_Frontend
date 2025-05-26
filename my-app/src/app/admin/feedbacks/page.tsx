@@ -34,7 +34,7 @@ const Feedbacks = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/users/me", {
+        const res = await axios.get("https://douluxme-backend.onrender.com/api/users/me", {
           withCredentials: true,
         });
         if (res.data.user.role === "admin") {
@@ -57,7 +57,7 @@ const Feedbacks = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/feedbacks/get", {
+      const res = await axios.get("https://douluxme-backend.onrender.com/api/feedbacks/get", {
         withCredentials: true,
       });
       setFeedbacks(res.data);
@@ -81,7 +81,7 @@ const Feedbacks = () => {
 
     try {
       await axios.patch(
-        `http://localhost:5000/api/feedbacks/update/${currentFeedback.id}`,
+        `https://douluxme-backend.onrender.com/api/feedbacks/update/${currentFeedback.id}`,
         { comment},
         { withCredentials: true }
       );
@@ -102,7 +102,7 @@ const Feedbacks = () => {
     if (!confirm("Are you sure you want to delete this feedback?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/feedbacks/delete/${id}`, {
+      await axios.delete(`https://douluxme-backend.onrender.com/api/feedbacks/delete/${id}`, {
         withCredentials: true,
       });
       setFeedbacks((prev) => prev.filter((n) => n.id !== id));

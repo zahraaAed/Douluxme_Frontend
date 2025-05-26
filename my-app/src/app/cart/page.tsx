@@ -41,7 +41,7 @@ const CartList: React.FC = () => {
         await Promise.all(
           productIds.map(async (productId) => {
             try {
-              const response = await axios.get(`http://localhost:5000/api/products/get/${productId}`)
+              const response = await axios.get(`https://douluxme-backend.onrender.com/api/products/get/${productId}`)
               productData[productId] = response.data
             } catch (err) {
               console.error(`Error fetching product ${productId}:`, err)
@@ -158,7 +158,7 @@ const CartList: React.FC = () => {
                 >
                   <div className="flex items-center w-full sm:w-auto space-x-4">
                     <Image
-                      src={`http://localhost:5000/uploads/${product.image}`}
+                      src={`https://douluxme-backend.onrender.com/uploads/${product.image}`}
                       alt={product.name}
                       width={96}
                       height={96}

@@ -46,7 +46,7 @@ const OrdersHistory: React.FC = () => {
 
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/orders/user/${user.id}`,
+          `https://douluxme-backend.onrender.com/api/orders/user/${user.id}`,
           { withCredentials: true }
         );
         setOrders(res.data);
@@ -163,7 +163,7 @@ const OrdersHistory: React.FC = () => {
                     className="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm"
                   >
 <Image
-  src={`http://localhost:5000/uploads/${item.product.image}`}
+  src={`https://douluxme-backend.onrender.com/uploads/${item.product.image}`}
   alt={item.product.name}
   className="w-24 h-24 object-cover rounded-lg"
   width={100}

@@ -61,7 +61,7 @@ const UsersPage = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const res = await axios.get<{ user: User }>('http://localhost:5000/api/users/me', {
+        const res = await axios.get<{ user: User }>('https://douluxme-backend.onrender.com/api/users/me', {
           withCredentials: true,
         });
   
@@ -90,7 +90,7 @@ const UsersPage = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/users/get', {
+      const res = await axios.get('https://douluxme-backend.onrender.com/api/users/get', {
         withCredentials: true,
       });
   
@@ -145,7 +145,7 @@ const UsersPage = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/users/register', newUser, { withCredentials: true });
+      await axios.post('https://douluxme-backend.onrender.com/api/users/register', newUser, { withCredentials: true });
       fetchUsers();
       resetForm();
       toast.success("User added successfully!");
@@ -158,7 +158,7 @@ const UsersPage = () => {
   // Handle deleting a user
   const handleDeleteUser = async (userId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/delete/${userId}`, { withCredentials: true });
+      await axios.delete(`https://douluxme-backend.onrender.com/api/users/delete/${userId}`, { withCredentials: true });
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       setFilteredUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       toast.success("User deleted successfully!");
@@ -187,7 +187,7 @@ const UsersPage = () => {
     }
 
     try {
-      await axios.patch(`http://localhost:5000/api/users/update/${editUserId}`, newUser, { withCredentials: true });
+      await axios.patch(`https://douluxme-backend.onrender.com/api/users/update/${editUserId}`, newUser, { withCredentials: true });
       fetchUsers();
       resetForm();
       toast.success("User updated successfully!");

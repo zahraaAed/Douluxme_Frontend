@@ -26,7 +26,7 @@ const Categories = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users/me', {
+        const res = await axios.get('https://douluxme-backend.onrender.com/api/users/me', {
           withCredentials: true,
         });
   
@@ -55,7 +55,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/categories/get', {
+      const res = await axios.get('https://douluxme-backend.onrender.com/api/categories/get', {
         withCredentials: true,
       });
       setCategories(res.data);
@@ -91,7 +91,7 @@ const Categories = () => {
     formData.append("image", image);
 
     try {
-      await axios.post("http://localhost:5000/api/categories/create", formData, {
+      await axios.post("https://douluxme-backend.onrender.com/api/categories/create", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -140,7 +140,7 @@ const Categories = () => {
 
     try {
       await axios.patch(
-        `http://localhost:5000/api/categories/update/${currentCategory.id}`,
+        `https://douluxme-backend.onrender.com/api/categories/update/${currentCategory.id}`,
         formData,
         {
           withCredentials: true,
@@ -177,7 +177,7 @@ const Categories = () => {
     if (!confirm('Are you sure you want to delete this category?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/categories/delete/${id}`, {
+      await axios.delete(`https://douluxme-backend.onrender.com/api/categories/delete/${id}`, {
         withCredentials: true,
       });
       setCategories((prev) => prev.filter((n) => n.id !== id));
@@ -262,7 +262,7 @@ const Categories = () => {
                       <td className="border p-2 text-[#A03321]">{category.name}</td>
                       <td className="border p-2">
                         <img
-                          src={`http://localhost:5000/uploads/${category.image}`}
+                          src={`https://douluxme-backend.onrender.com/uploads/${category.image}`}
                           alt={category.name}
                           className="w-16 h-16 object-cover mx-auto"
                         />

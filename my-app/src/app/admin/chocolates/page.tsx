@@ -25,7 +25,7 @@ const ChocolatesPage = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/users/me", {
+        const res = await axios.get("https://douluxme-backend.onrender.com/api/users/me", {
           withCredentials: true,
         });
         if (res.data.user.role === "admin") {
@@ -48,7 +48,7 @@ const ChocolatesPage = () => {
 
   const fetchChocolates = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/chocolates/get", {
+      const res = await axios.get("https://douluxme-backend.onrender.com/api/chocolates/get", {
         withCredentials: true,
       });
       setChocolates(res.data);
@@ -62,7 +62,7 @@ const ChocolatesPage = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5000/api/chocolates/create",
+        "https://douluxme-backend.onrender.com/api/chocolates/create",
         { type, price },
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ const ChocolatesPage = () => {
 
     try {
       await axios.patch(
-        `http://localhost:5000/api/chocolates/update/${currentChocolate.id}`,
+        `https://douluxme-backend.onrender.com/api/chocolates/update/${currentChocolate.id}`,
         { type, price },
         { withCredentials: true }
       );
@@ -110,7 +110,7 @@ const ChocolatesPage = () => {
     if (!confirm("Are you sure you want to delete this chocolate?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/chocolates/delete/${id}`, {
+      await axios.delete(`https://douluxme-backend.onrender.com/api/chocolates/delete/${id}`, {
         withCredentials: true,
       });
       setChocolates((prev) => prev.filter((n) => n.id !== id));

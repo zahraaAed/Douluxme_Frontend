@@ -15,7 +15,7 @@ const OrderItemsPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editItemData, setEditItemData] = useState({ id: "", quantity: "", productId: null, price: 0 });
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://douluxme-backend.onrender.com/api';
 
     useEffect(() => {
         if (!orderId) return;

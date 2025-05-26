@@ -70,7 +70,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     const fetchCartData = async () => {
         setLoading(true); // Set loading to true at the start
         try {
-            const response = await axios.get('http://localhost:5000/api/carts/get',    { withCredentials: true });
+            const response = await axios.get('https://douluxme-backend.onrender.com/api/carts/get',    { withCredentials: true });
             console.log(response.data); // Log the data to check its structure
           
             setCarts(response.data); // Set the fetched cart data
@@ -85,7 +85,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     // Add a cart item (Create)
     const addCartItem = async (item: NewCartItem) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/carts/create', item, { withCredentials: true });
+            const response = await axios.post('https://douluxme-backend.onrender.com/api/carts/create', item, { withCredentials: true });
             await fetchCartData(); 
             setCarts((prevCarts) => [...prevCarts, response.data]);
         } catch (err) {
@@ -115,7 +115,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       
         try {
           const response = await axios.patch(
-            `http://localhost:5000/api/carts/update/${id}`,
+            `https://douluxme-backend.onrender.com/api/carts/update/${id}`,
             { quantity },
             {
               withCredentials: true,
@@ -161,7 +161,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     // Remove a cart item (Delete)
     const removeCartItem = async (id: string) => {
         try {
-            await axios.delete(`http://localhost:5000/api/carts/delete/${id}`,   { withCredentials: true }); // Replace with your actual API
+            await axios.delete(`https://douluxme-backend.onrender.com/api/carts/delete/${id}`,   { withCredentials: true }); // Replace with your actual API
             setCarts((prevCarts) => prevCarts.filter((item) => item.id !== id));
         } catch (err) {
           console.error('Failed to remove item from cart:', err);
@@ -176,7 +176,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     try {
       // Delete all cart items one by one
       for (const item of carts) {
-        await axios.delete(`http://localhost:5000/api/carts/delete/${item.id}`, { withCredentials: true })
+        await axios.delete(`https://douluxme-backend.onrender.com/api/carts/delete/${item.id}`, { withCredentials: true })
       }
       // Clear the local state
       setCarts([])

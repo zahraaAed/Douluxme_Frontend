@@ -48,7 +48,7 @@ const OrdersPage = () => {
     status: "pending",
   })
 
-  const API_URL = "http://localhost:5000/api"
+  const API_URL = "https://douluxme-backend.onrender.com/api"
 
   const getOrders = async () => {
     setLoading(true)

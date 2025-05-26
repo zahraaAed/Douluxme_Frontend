@@ -32,9 +32,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
   const fetchData = async () => {
     try {
       const [nutsRes, categoriesRes, productsRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/nuts/get"),
-        axios.get("http://localhost:5000/api/categories/get"),
-        axios.get("http://localhost:5000/api/products/get")
+        axios.get("https://douluxme-backend.onrender.com/api/nuts/get"),
+        axios.get("https://douluxme-backend.onrender.com/api/categories/get"),
+        axios.get("https://douluxme-backend.onrender.com/api/products/get")
       ]);
   
       setNuts(nutsRes.data.map((nut: { variety: string }) => nut.variety));
@@ -68,7 +68,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onFilterChange, selectedFilter }) => 
     const lower = categoryName.toLowerCase()
     if (lower.includes("bar")) return nuts
     if (lower.includes("box")) return boxSizes
-    if (lower.includes("gift")) return ["Ramadan", "Prophet Muhammad", "Eid Mubarak"]
     return [categoryName]
   }
 
